@@ -1,0 +1,4 @@
+{
+  "keepUnwrapped" : ["${data.title}", "${data.js}", "${data.css}"],
+  "isTemplateString" : true
+}

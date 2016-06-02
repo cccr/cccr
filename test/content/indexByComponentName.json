@@ -1,0 +1,18 @@
+{
+  "simpleAs": {
+    "parsys": {},
+    "data": {
+      "text": "as",
+      "text2": {
+        "simpleAs2": {
+          "data": {
+            "text": "inner 0",
+            "text2": "inner 2"
+          }
+        }
+      },
+      "text3": "333"
+    },
+    "args": {}
+  }
+}

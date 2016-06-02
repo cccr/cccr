@@ -1,0 +1,11 @@
+{
+  "simpleAs": {
+    "source": {
+      "type": "fs",
+      "url": "./app/simpleAs/properties.json"
+    },
+    "parsys": {},
+    "data": {},
+    "args": {}
+  }
+}

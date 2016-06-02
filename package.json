@@ -1,0 +1,13 @@
+{
+  "name": "cccr",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node ./www.js",
+    "test": "node ./testRun.js"
+  },
+  "dependencies": {
+    "debug": "~2.2.0",
+    "mongodb": "~2.1.20"
+  }
+}

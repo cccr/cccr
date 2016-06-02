@@ -1,0 +1,4 @@
+{
+  "keepUnwrapped" : ["${data.head}"],
+  "isTemplateString" : false
+}

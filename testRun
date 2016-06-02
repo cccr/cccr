@@ -1,0 +1,12 @@
+#!/bin/bash
+cd test
+for file in test*.js
+do
+  node --harmony --use_strict "$file" >/dev/null
+  if [ $? -eq 0 ]
+  then
+    echo "$file successfully"
+  else
+    echo "$file fail"
+  fi
+done

@@ -1,0 +1,11 @@
+{
+  "simpleAs": {
+    "source": {
+      "type": "rest",
+      "url": "http://localhost:8855/properties.json"
+    },
+    "parsys": {},
+    "data": {},
+    "args": {}
+  }
+}

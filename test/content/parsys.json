@@ -1,0 +1,29 @@
+{
+  "text": {
+    "parsys": {
+      "parsys2": [
+        {
+          "type": "fs",
+          "url": "./content/indexByComponentName.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/indexByComponentName.json"
+        }
+      ],
+      "parsys": [
+        {
+          "type": "fs",
+          "url": "./content/indexByComponentName.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/indexByComponentName.json"
+        }
+      ]
+    },
+    "data": {
+      "text": "HELLO FROM PARSYS FILE"
+    }
+  }
+}
