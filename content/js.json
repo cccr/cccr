@@ -1,0 +1,20 @@
+{
+  "json": {
+    "data": {
+      "items": {
+        "compute.passArrayAsData": {
+            "args": [
+              {
+                "href": "/",
+                "text": "arg1"
+              },
+              {
+                "href": "/contacts",
+                "text": "arg2"
+              }
+            ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "its": {
+    "data": {
+      "title": "#ITsubbotnik Spring 2016"
+    },
+    "parsys": {
+      "header": [
+        {
+          "type": "fs",
+          "url": "./content/its/header.json"
+        }
+      ],
+      "main": [
+        {
+          "type": "fs",
+          "url": "./content/its/promo.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/its/promo_video.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/its/speakers.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/its/agenda.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/its/map.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/its/venue.json"
+        },
+        {
+          "type": "fs",
+          "url": "./content/its/stay_connected.json"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "its.speakers": {
+    "data": {
+      "h2": "Спикеры:",
+      "p": "Это еще не всё! Вернее, ещё не все. Данный раздел будет пополняться.",
+      "speakers": {
+        "compute.passArrayAsData": {
+          "args": [
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1007/Anton_Shapin.jpg",
+              "id": 1007,
+              "name": "Антон Шапин",
+              "title": "Lead Software Test Automation Engineer"
+            },
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/231/kzsquare2016.jpg",
+              "id": 231,
+              "name": "Константин Злобин",
+              "title": "Lead Software Engineer"
+            },
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1006/_5C0B11CCDDD7E366E2C24C08036540D7E17E0C6639F96D0B75_pimgpsh_fullsize_distr.jpg",
+              "id": 1006,
+              "name": "Наталия Гаркуша",
+              "title": "Software Test Automation Engineer"
+            },
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1009/Anton_Petrov.jpg",
+              "id": 1009,
+              "name": "Антон Петров",
+              "title": "Lead Data Analyst"
+            }
+            ,
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/150/Alexey_Zinovyev.jpg",
+              "id": 150,
+              "name": "Алексей Зиновьев",
+              "title": "Senior Training and Development Specialist"
+            }
+            ,
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/220/Andriy_Filatov.jpg",
+              "id": 220,
+              "name": "Андрей Филатов",
+              "title": "Lead Systems Engineer"
+            }
+            ,
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1010/Ivan_Bovyrin1.JPG",
+              "id": 1010,
+              "name": "Иван Бовырин",
+              "title": "Systems Engineer"
+            }
+            ,
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1012/Pavel_Korshunov.JPG",
+              "id": 1012,
+              "name": "Павел Коршунов",
+              "title": "Senior Software Engineer"
+            }
+            ,
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1011/avatar.jpg",
+              "id": 1011,
+              "name": "Владимир Потапов",
+              "title": "Senior Software Test Automation Engineer"
+            }
+            ,
+            {
+              "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1008/TnsxMO3LD-U__002_.jpg",
+              "id": 1008,
+              "name": "Николай Богданов",
+              "title": "Senior Software Engineer"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

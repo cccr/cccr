@@ -1,0 +1,39 @@
+`<div class="promo-section event-featured-speakers-section center green" id="speakers" style="height: 1103px;">
+    <div class="mask-wrapper" style="opacity: 1;"></div>
+    <div class="section-wrapper">
+        <div class="content-wrapper">
+            <div class="text-wrapper">
+                <h3></h3>
+                <h2>${data.h2}</h2>
+                <p>${data.p}</p>
+<div class="speakers-wrapper edit-wrapper speakers" data-edit="speakers">
+` +
+fn.loop`<div class="speaker-profile" style="width: 180px;">
+    <div class="speaker-photo">
+        <div class="photo-wrapper">
+            <img src="${data.speakers.photo}" alt="" onclick="window.location = '/speakers/${data.speakers.id}'">
+        </div>
+    </div>
+    <div class="speaker-info">
+        <h4 onclick="window.location = '/speakers/${data.speakers.id}'">${data.speakers.name}</h4>
+        <p>${data.speakers.title}</p>
+    </div>
+</div>` +
+`
+</div>
+                <div class="dots-wrapper">
+                <span class="dot active"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                <span class="dot"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>`

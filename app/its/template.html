@@ -1,0 +1,516 @@
+<html lang="en"><head><style type="text/css">.gm-style .gm-style-mtc label,.gm-style .gm-style-mtc div{font-weight:400}</style><style type="text/css">.gm-style-pbc{transition:opacity ease-in-out;background-color:black;text-align:center}.gm-style-pbt{font-size:22px;color:white;font-family:Roboto,Arial,sans-serif;position:relative;margin:0;top:50%;-webkit-transform:translateY(-50%);-ms-transform:translateY(-50%);transform:translateY(-50%)}</style><link type="text/css" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700"><style type="text/css">.gm-style .gm-style-cc span,.gm-style .gm-style-cc a,.gm-style .gm-style-mtc div{font-size:10px}</style><style type="text/css">@media print {  .gm-style .gmnoprint, .gmnoprint {    display:none  }}@media screen {  .gm-style .gmnoscreen, .gmnoscreen {    display:none  }}</style><style type="text/css">.gm-style{font-family:Roboto,Arial,sans-serif;font-size:11px;font-weight:400;text-decoration:none}.gm-style img{max-width:none}</style>
+    <meta charset="utf-8">
+    <title>${data.title}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+    <link rel="shortcut icon" type="image/x-icon" href="https://d35gr10tdtus0x.cloudfront.net/assets/favicon-48f166bc05117ca66fcbed319616d53b5671f97aae542285c77f28b924353012.ico">
+    <link rel="stylesheet" media="all" href="https://d35gr10tdtus0x.cloudfront.net/assets/user_event_all-83e378258d71e19957ecda7491abfc2aacdd2eeb85137b5427bbe8493f401d41.css">
+
+    <meta name="csrf-param" content="authenticity_token">
+    <meta name="csrf-token" content="zCHXSNVmXzBSuYLLwuqoMacbu3/I3aCnasK7bl3hV6oWqtQZhilXRZ2bE2Ofp8cdLoCCHx2Jto+6ddbwOk90QQ==">
+    <script async="" src="//www.google-analytics.com/analytics.js"></script><script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-56451205-7', 'auto');
+        ga('send', 'pageview');
+    </script><style type="text/css"></style>
+    <script type="text/javascript" charset="UTF-8" src="https://maps.google.com/maps-api-v3/api/js/25/4/intl/ru_ALL/common.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.google.com/maps-api-v3/api/js/25/4/intl/ru_ALL/map.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.google.com/maps-api-v3/api/js/25/4/intl/ru_ALL/util.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.google.com/maps-api-v3/api/js/25/4/intl/ru_ALL/marker.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.google.com/maps-api-v3/api/js/25/4/intl/ru_ALL/onion.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.google.com/maps-api-v3/api/js/25/4/intl/ru_ALL/stats.js"></script><script type="text/javascript" charset="UTF-8" src="https://maps.google.com/maps-api-v3/api/js/25/4/intl/ru_ALL/controls.js"></script></head>
+<body>
+<div class="wrapper">${parsys.header}
+    <div class="uui-main-container" style="padding-bottom: 185px;">
+        <main class="promo-container">
+
+${parsys.main}
+
+        </main>
+
+
+    </div>
+    <footer style="height: 185px; margin-top: -185px;">
+        <div class="uui-promo-footer dark-gray">
+            <ul class="uui-footer-navigation">
+                <li>
+                    <a href="/events/itsubbotnik-spring-2016/agenda">
+                        Agenda
+                    </a>
+                </li>
+                <li>
+                    <a href="/events/itsubbotnik-spring-2016/speakers">
+                        Speakers
+                    </a>
+                </li>
+
+            </ul>
+            <ul class="social-wrapper">
+                <li>
+                    <a class="fa fa-vk" href="http://vk.com/epampiter" target="_blank"></a>
+                </li>
+            </ul>
+            <p class="copyright">© 2016 EPAM Systems, Inc. All Rights Reserved.</p>
+        </div>
+    </footer>
+</div>
+<div class="popup-bg"></div>
+<div class="modal uui-modal fade red" id="modal_error" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="uui-button">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal uui-modal fade" id="modal_confirm_close" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="uui-button cancel-delete-entity">Cancel</button>
+                <button type="button" data-dismiss="modal" class="uui-button red delete-entity">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal uui-modal fade" id="modal_confirm_redirect" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title"></h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+            </div>
+            <div class="modal-body">
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="uui-button cancel-delete-entity">Cancel</button>
+                <button type="button" data-dismiss="modal" class="uui-button red delete-entity">OK</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="popup remove-from-my-agenda-confirmation-popup">
+    <div class="popup-heading">
+        Remove from My Agenda
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    <p>The selected talk will be removed from your agenda. Do you want to continue?</p>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="popup-footer">
+        <button class="uui-button large cancel-button">Cancel</button>
+        <button class="uui-button large lime-green submit-button">Remove</button>
+    </div>
+</div>
+
+<div class="popup speaker-reg-popup" data-popup="speaker">
+    <div class="popup-heading">
+        Talk Proposal
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body mCustomScrollbar _mCS_3 mCS_no_scrollbar"><div id="mCSB_3" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 0px;" tabindex="0"><div id="mCSB_3_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    Don't hesitate to enter draft information for now - we will help you get your talk ready.
+                </div>
+            </div>
+        </section>
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Name&nbsp;<span>*</span>
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="speaker_name" type="text" class="uui-form-element" value="" data-default="" data-obligation="true" data-validate="speakers.name">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Email&nbsp;<span>*</span>
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="speaker_email" type="text" class="uui-form-element" value="" data-default="" data-obligation="true" data-validate="speakers.email">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section center">
+                    OR
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section field-section">
+                    <button class="uui-button plum login-button" data-redirect="/events/epam-login?return_url=/events/itsubbotnik-spring-2016&amp;speaker=true">
+                        <i class="fa fa-angle-left"></i>
+                        EPAM Login
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+            <!--<div class="info-panel-body">
+                    <div class="info-panel-section field-section">
+                        <button class="uui-button fa fa-google-plus social-button" data-redirect="/events/social-login?social_return_url=/events/itsubbotnik-spring-2016&provider=google&speaker=true"></button>
+                        <button class="uui-button fa fa-facebook social-button" data-redirect="/events/social-login?social_return_url=/events/itsubbotnik-spring-2016&provider=facebook&speaker=true"></button>
+                    </div>
+                </div>-->
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Talk Title&nbsp;<span>*</span>
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="speech_title" type="text" class="uui-form-element" data-obligation="true" data-validate="title" maxlength="300">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section speech-type-label">
+                    Talk Format&nbsp;<span>*</span>
+                </div>
+                <div class="info-panel-section field-section speech-type-field">
+                    <ul class="uui-multiswitch">
+                        <li><input type="radio" id="b1" checked="checked" value="1"><label for="b1" class="active">Presentation</label></li>
+                        <li><input type="radio" id="b2" value="2"><label for="b2">Workshop</label></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section key-tags">
+                    Talk Topics
+                </div>
+                <div class="info-panel-section field-section">
+                    <ul id="keyTags" class="tagit ui-widget ui-widget-content ui-corner-all"><li class="tagit-new"><span role="status" aria-live="polite" class="ui-helper-hidden-accessible"></span><input type="text" class="ui-widget-content ui-autocomplete-input" autocomplete="off" placeholder="Please provide key word(s) of your talk."></li></ul>
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section text">
+                    Talk Description&nbsp;<span>*</span>
+                </div>
+                <div class="info-panel-section field-section">
+                    <textarea id="abstracts" class="uui-form-element" rows="5" cols="10" data-obligation="true" data-validate="talks_description" data-toggle="tooltip" data-container="body" data-placement="top" data-original-title="My talk is about how to  look into the most popular framework for database access in Scala world. Slick allows you to work with stored data almost as if you were using Scala collections while at the same time giving you full control over when a database access happens and which data is transferred. This talk gives you an overview of Slick's design and shows you how to use it, based on the release 3.0......."></textarea>
+                </div>
+            </div>
+        </section>
+    </div><div id="mCSB_3_scrollbar_vertical" class="mCSB_scrollTools mCSB_3_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_3_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+    <div class="popup-footer">
+
+        <img src="/images/icons/loader_medium_24x24.gif" class="registration-loader" alt="" style="display: none;">
+        <button class="uui-button large cancel-button">Cancel</button>
+        <button class="uui-button large lime-green submit-button" onclick="registerSpeaker()">Register</button>
+    </div>
+</div>
+
+<div class="popup speaker-reg-confirmation-popup speech-confirm">
+    <div class="popup-heading">
+        Speaker Registration Accepted
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    <p>Thank you for registration!</p>
+                    <p>Your registration as a speaker to Event "#ITsubbotnik Spring 2016" has been accepted and is pending review by the organizers. We appreciate your readiness to share your experience and ideas. We will contact you soon with more details.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<div class="popup internal-guest-reg-popup guest-reg-popup">
+    <div class="popup-heading">
+        Guest Registration
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body mCustomScrollbar _mCS_1 mCS_no_scrollbar"><div id="mCSB_1" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 0px;" tabindex="0"><div id="mCSB_1_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    Please complete the form if you wish to attend in person. And wait for additional approval notification.
+                </div>
+            </div>
+        </section>
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    <h3>General</h3>
+                </div>
+                <div class="info-panel-section field-section">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Name*
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="i_guest_name" type="text" class="uui-form-element" value="" data-default="" data-validate="name">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Email*
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="i_guest_email" type="text" class="uui-form-element" value="" data-default="" data-validate="email">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Company
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="i_guest_company" type="text" class="uui-form-element" data-server-validate="company">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Position/Title
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="i_guest_position" type="text" class="uui-form-element" data-server-validate="position">
+                </div>
+            </div>
+        </section>
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    <h3>Reasons</h3>
+                </div>
+                <div class="info-panel-section field-section">
+                </div>
+            </div>
+            <div class="info-panel-body" style="display: none;">
+                <div class="info-panel-section label-section">
+                    Technology
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="i_guest_technology" type="text" class="uui-form-element" data-server-validate="technology">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section text">
+                    Reason for Attending
+                </div>
+                <div class="info-panel-section field-section">
+                    <textarea id="i_guest_reason" class="uui-form-element" rows="5" cols="10" data-server-validate="reason_of_attendance"></textarea>
+                </div>
+            </div>
+        </section>
+    </div><div id="mCSB_1_scrollbar_vertical" class="mCSB_scrollTools mCSB_1_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_1_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+    <div class="popup-footer">
+
+        <img src="/images/icons/loader_medium_24x24.gif" alt="" style="display: none;" class="registration-loader">
+        <button class="uui-button large cancel-button">Cancel</button>
+        <button class="uui-button large lime-green submit-button" onclick="registerGuest('i_')">Wish to attend</button>
+    </div>
+</div>
+
+<div class="popup external-guest-reg-popup guest-reg-popup" data-local-storage="true">
+    <div class="popup-heading">
+        Guest Registration
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body mCustomScrollbar _mCS_2 mCS_no_scrollbar"><div id="mCSB_2" class="mCustomScrollBox mCS-light mCSB_vertical mCSB_inside" style="max-height: 0px;" tabindex="0"><div id="mCSB_2_container" class="mCSB_container mCS_y_hidden mCS_no_scrollbar_y" style="position:relative; top:0; left:0;" dir="ltr">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    Please complete the form if you wish to attend in person. And wait for additional approval notification.
+                </div>
+            </div>
+        </section>
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    <h3>General</h3>
+                </div>
+                <div class="info-panel-section field-section">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Name*
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="e_guest_name" type="text" class="uui-form-element" value="" data-name="name" data-validate="name" data-default="">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Email*
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="e_guest_email" type="text" class="uui-form-element" value="" data-name="email" data-validate="email" data-default="">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Company
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="e_guest_company" type="text" class="uui-form-element" value="" data-name="company" data-server-validate="company" data-default="">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    Position/Title
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="e_guest_position" type="text" class="uui-form-element" value="" data-name="position" data-server-validate="position" data-default="">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section center">
+                    OR
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section field-section">
+                    <button class="uui-button plum login-button" data-redirect="/events/epam-login?return_url=/events/itsubbotnik-spring-2016&amp;guest=true">
+                        <i class="fa fa-angle-left"></i>
+                        EPAM Login
+                        <i class="fa fa-angle-right"></i>
+                    </button>
+                </div>
+            </div>
+            <!--<div class="info-panel-body">
+                    <div class="info-panel-section field-section">
+                        <button class="uui-button fa fa-google-plus social-button" data-redirect="/events/social-login?social_return_url=/events/itsubbotnik-spring-2016&provider=google&guest=true"></button>
+                        <button class="uui-button fa fa-facebook social-button" data-redirect="/events/social-login?social_return_url=/events/itsubbotnik-spring-2016&provider=facebook&guest=true"></button>
+                    </div>
+                </div>-->
+        </section>
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section">
+                    <h3>Reasons</h3>
+                </div>
+                <div class="info-panel-section field-section">
+                </div>
+            </div>
+            <div class="info-panel-body" style="display: none;">
+                <div class="info-panel-section label-section">
+                    Technology
+                </div>
+                <div class="info-panel-section field-section">
+                    <input id="e_guest_technology" type="text" class="uui-form-element" data-server-validate="technology">
+                </div>
+            </div>
+            <div class="info-panel-body">
+                <div class="info-panel-section label-section text">
+                    Reason for Attending
+                </div>
+                <div class="info-panel-section field-section">
+                    <textarea id="e_guest_reason" class="uui-form-element" rows="5" cols="10" data-server-validate="reason_of_attendance"></textarea>
+                </div>
+            </div>
+        </section>
+    </div><div id="mCSB_2_scrollbar_vertical" class="mCSB_scrollTools mCSB_2_scrollbar mCS-light mCSB_scrollTools_vertical" style="display: none;"><div class="mCSB_draggerContainer"><div id="mCSB_2_dragger_vertical" class="mCSB_dragger" style="position: absolute; min-height: 30px; top: 0px;" oncontextmenu="return false;"><div class="mCSB_dragger_bar" style="line-height: 30px;"></div></div><div class="mCSB_draggerRail"></div></div></div></div></div>
+    <div class="popup-footer">
+
+        <img src="/images/icons/loader_medium_24x24.gif" alt="" class="registration-loader" style="display: none;">
+        <button class="uui-button large cancel-button">Cancel</button>
+        <button class="uui-button large lime-green submit-button" onclick="registerGuest('e_')">Wish to attend</button>
+    </div>
+</div>
+
+<div class="popup speaker-reg-confirmation-popup guest-pre-confirm">
+    <div class="popup-heading">
+        Guest Registration Confirmation
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    <p>You've submitted a request for participation for the event "#ITsubbotnik Spring 2016". Please confirm your email by following instructions in the email you receive.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="popup speaker-reg-confirmation-popup guest-submit">
+    <div class="popup-heading">
+        Guest Registration Accepted
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    <p>Congratulations!</p>
+                    <p>You have submitted a request for participation in "#ITsubbotnik Spring 2016". Please wait for approval by email.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="popup speaker-reg-confirmation-popup guest-confirm">
+    <div class="popup-heading">
+        Guest Registration Accepted
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    <p>Congratulations!</p>
+                    <p>You have submitted a request for participation in "#ITsubbotnik Spring 2016". Please wait for approval by email.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+<div class="popup speaker-reg-confirmation-popup guest-already-confirm">
+    <div class="popup-heading">
+        <div>Guest Already Registered</div>
+        <div class="popup-close">x</div>
+    </div>
+    <div class="popup-body">
+        <section class="uui-info-panel-horizontal">
+            <div class="info-panel-body">
+                <div class="info-panel-section text-section">
+                    <p>You have already been registered for the event "#ITsubbotnik Spring 2016".</p>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+
+
+<script src="https://d35gr10tdtus0x.cloudfront.net/assets/user_all-10b279fa781bfb998b41ca3d7dc648143c16f26225002860f7f00fe46e9e516f.js"></script>
+<script>
+    var event_id = 141;
+    $.fn.bootstrap_tooltip = $.fn.tooltip;
+    delete $.fn.tooltip;
+    countSectionHeight();
+</script>
+<script src="https://d35gr10tdtus0x.cloudfront.net/assets/user/event_all-ef4a035f60699678103e13c31878aaff912ee0b43909396361a69cb2d438327f.js"></script>
+
+<!-- IE9- support of HTML5 -->
+<!--[if lt IE 9]>
+<script src="https://d35gr10tdtus0x.cloudfront.net/assets/ie9-e550437f47c698a91c813343957639230b3caf28575160e121ad042458eae520.js"></script>
+<![endif]-->
+<script>
+    var event_title = '#ITsubbotnik Spring 2016';
+</script>
+
+
+<ul class="ui-autocomplete ui-front ui-menu ui-widget ui-widget-content ui-corner-all tagit-autocomplete" id="ui-id-1" tabindex="0" style="display: none;"></ul></body></html>

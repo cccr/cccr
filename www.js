@@ -37,7 +37,7 @@ var app = function (request, response) {
       type: 'fs',
       url: filename
     };
-
+    console.time('testPageGenerate');
     var re = new RE();
     re.init(content_ref, CP);
     re.readContent().catch((err) => {
@@ -47,6 +47,7 @@ var app = function (request, response) {
       response.writeHead(200, headers);
       response.write(renderedResult.renderedResult, "binary");
       response.end();
+      console.timeEnd('testPageGenerate');
     });
 
   } catch (err) { response.end(); }
