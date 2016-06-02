@@ -9,5 +9,6 @@
   "dependencies": {
     "debug": "~2.2.0",
     "mongodb": "~2.1.20"
-  }
+  },
+  "engine": "node >=6.2.0"
 }
