@@ -25,7 +25,7 @@ Component.readComponent = function (componentName, componentSource) {
 
 Component.prototype.readComponent = function () {
     var contentReader;
-    var propertiesPath = this.source.url;
+    var propertiesPath = this.source.url || this.source.key;
     var templatePath;
     var defaultValuesPath;
 
@@ -39,6 +39,11 @@ Component.prototype.readComponent = function () {
             contentReader = require("./_contentReaders/HttpRequest.js");
             templatePath = this.source.url.replace(PROPERTIES_FILENAME, TEMPLATE_FILENAME);
             defaultValuesPath = this.source.url.replace(PROPERTIES_FILENAME, DEFAULT_VALUES_FILENAME);
+            break;
+        case "redis":
+            contentReader = require("./_contentReaders/Redis.js");
+            templatePath = this.source.key.replace(PROPERTIES_FILENAME, TEMPLATE_FILENAME);
+            defaultValuesPath = this.source.key.replace(PROPERTIES_FILENAME, DEFAULT_VALUES_FILENAME);
             break;
     }
 

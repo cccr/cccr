@@ -4,7 +4,7 @@ function FsRead() {}
 
 FsRead.run = (filePath, callback, transformer, errorHandler) => {
     return new Promise((resolve, reject) => {
-        fs.readFile(filePath, "binary", (err, content) => {
+        fs.readFile(filePath, "utf8", (err, content) => {
             if (err) {
                 if (errorHandler) {
                     resolve(errorHandler(err));

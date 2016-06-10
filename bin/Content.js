@@ -31,6 +31,13 @@ Content.prototype.read = function () {
                                 JSON.parse,
                                 this.RenderEngine)
                     .then((o) => resolve(o));
+                break;
+            case 'redis':
+                var Redis = require("./_contentReaders/Redis.js");
+                Redis.run(this.RenderEngine.contentReference.key,
+                          (c) => this.parseContent(c),
+                          JSON.parse)
+                    .then((o) => resolve(o));
         }
     });
 };
@@ -54,7 +61,7 @@ Content.prototype.parseContent = function (readedContent) {
 
             this.data = {};
             var data = Object.assign({}, component.defaults, readedContent[this.componentName].data);
-            promises.push(Content.parseData(data));
+            promises.push(Content.parseData(data, this.RenderEngine));
 
             this.args = readedContent[this.componentName].args;
 
@@ -62,7 +69,7 @@ Content.prototype.parseContent = function (readedContent) {
             var readedParsys = readedContent[this.componentName].parsys;
             if (readedParsys && Object.keys(readedParsys).length > 0) {
                 var parsys = Object.assign(this.parsys, readedParsys);
-                promises.push(Content.parseParsys(parsys));
+                promises.push(Content.parseParsys(parsys, this.RenderEngine));
             }
 
             Promise.all(promises).then((parsedContentData) => {
@@ -105,7 +112,7 @@ Content.processParsys = function (renderedParsyses) {
     }).join(" ");
 };
 
-Content.parseParsys = function (parsyses) {
+Content.parseParsys = function (parsyses, renderEngine) {
     /**
      * for each parsysSource generate String and return as an Object with passed key
      * @param parsysKey String
@@ -113,8 +120,6 @@ Content.parseParsys = function (parsyses) {
      * @returns {Promise}
      */
     var pp = function (parsysKey, sources) {
-        var InnerRenderEngine = require('../bin/RenderEngine.js');
-
         return new Promise((resolve, reject) => {
             var result = {};
             result[parsysKey] = [];
@@ -122,8 +127,8 @@ Content.parseParsys = function (parsyses) {
             var promises = [];
 
             sources.forEach((parsysSource) => {
-                var re = new InnerRenderEngine();
-                re.init(parsysSource, {});
+                var re = renderEngine.clone();
+                re.init(parsysSource); // pool already cloned
                 promises.push(re.readContent());
             });
 
@@ -142,12 +147,14 @@ Content.parseParsys = function (parsyses) {
     return new Promise((resolve, reject) => {
         var promises = [];
         Object.keys(parsyses)
-            .filter((key) => { return parsyses[key]})
+            .filter((key) => {
+                return parsyses[key]
+            })
             .forEach((parsys) => {
-            if (parsyses[parsys]) {
-                promises.push(pp(parsys, parsyses[parsys]));
-            }
-        });
+                if (parsyses[parsys]) {
+                    promises.push(pp(parsys, parsyses[parsys]));
+                }
+            });
 
         Promise.all(promises)
             .then((renderedParsys) => {
@@ -162,9 +169,7 @@ Content.parseParsys = function (parsyses) {
     });
 };
 
-Content.parseData = function (data) {
-    var InnerRenderEngine = require('../bin/RenderEngine.js');
-
+Content.parseData = function (data, renderEngine) {
     return new Promise((resolve, reject) => {
         var promises = [];
 
@@ -189,7 +194,7 @@ Content.parseData = function (data) {
         Object.keys(data)
             .filter(passOnlyObjects)
             .forEach((key) => {
-                var re = new InnerRenderEngine();
+                var re = renderEngine.clone();
                 promises.push(re.readWithContent(data[key]));
             });
 

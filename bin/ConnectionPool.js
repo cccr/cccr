@@ -1,15 +1,12 @@
-var MongoClient = require('mongodb').MongoClient;
-
 function ConnectionPool() {
     this.pool = {};
 }
 
 ConnectionPool.prototype.connect = function(connection, callback, context) {
-
     if (connection.type === 'mongodb') {
         var atob = this.atob(connection.option.url);
         if (!this._isExists(atob)) {
-
+            var MongoClient = require('mongodb').MongoClient;
             MongoClient.connect(connection.option.url, (err, database) => {
                 if (err) throw err;
 

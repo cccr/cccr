@@ -1,43 +1,47 @@
 {
   "its": {
+    "source": {
+      "type": "redis",
+      "key": "/app/its/properties.json"
+    },
     "data": {
       "title": "#ITsubbotnik Spring 2016"
     },
     "parsys": {
       "header": [
         {
-          "type": "fs",
-          "url": "./content/its/header.json"
+          "type": "redis",
+          "key": "/content/its/header.json"
         }
       ],
       "main": [
         {
-          "type": "fs",
-          "url": "./content/its/promo.json"
+          "type": "redis",
+          "key": "/content/its/promo.hero.json"
         },
         {
-          "type": "fs",
-          "url": "./content/its/promo_video.json"
+          "type": "redis",
+          "key": "/content/its/promo.video.json"
         },
         {
-          "type": "fs",
-          "url": "./content/its/speakers.json"
+          "type": "redis",
+          "key": "/content/its/speakers.json"
         },
         {
-          "type": "fs",
-          "url": "./content/its/agenda.json"
+          "type": "redis",
+          "key": "/content/its/agenda.json"
         },
         {
-          "type": "fs",
-          "url": "./content/its/map.json"
+          "type": "redis",
+          "key": "/content/its/map.json"
         },
         {
-          "type": "fs",
-          "url": "./content/its/venue.json"
+          "type": "redis",
+          "key": "/content/its/venue.json"
         },
         {
-          "type": "fs",
-          "url": "./content/its/stay_connected.json"
+          "type": "redis",
+          "key": "/content/its/stay_connected.json"
         }
       ]
     }

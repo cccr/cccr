@@ -16,42 +16,48 @@ var RE = require('./bin/RenderEngine.js');
  * Get port from environment.
  */
 
-var port = normalizePort(process.env.PORT || '8686');
-var headers = {"Content-Type": "text/html"};
+console.log(process.argv[2]);
+
+var port = normalizePort(process.env.PORT || process.argv[2] || '8686');
+var headers = {'Content-Type': 'text/html; charset=utf-8'};
 
 /**
  * Define app
  */
 
 var app = function (request, response) {
-  var uri = url.parse(request.url, true).pathname,
-      filename = path.join(process.cwd(), 'content', uri);
+    var uri = url.parse(request.url, true).pathname,
+        filename = path.join(process.cwd(), 'content', uri);
 
-  console.log(uri, filename);
-  //var url_parts = url.parse(request.url, true);
-  //var query = url_parts.query;
+    // console.log(uri, filename);
+    //var url_parts = url.parse(request.url, true);
+    //var query = url_parts.query;
+    if (uri.startsWith("/topics") || uri.startsWith("/images")) {
+        response.writeHead(404, headers);
+        response.end();
+    } else {
+        try {
 
-  try {
+            var content_ref = {
+                type: 'fs',
+                url: filename
+            };
+            var re = new RE(request, response);
+            re.init(content_ref, CP);
+            re.readContent().catch((err) => {
+                console.error(err);
+                response.end();
+            }).then((renderedResult) => {
+                response.writeHead(200, headers);
+                response.write(renderedResult.renderedResult, "utf8");
+                response.end();
+            })
+            ;
 
-    var content_ref = {
-      type: 'fs',
-      url: filename
-    };
-    console.time('testPageGenerate');
-    var re = new RE();
-    re.init(content_ref, CP);
-    re.readContent().catch((err) => {
-      console.error(err);
-      response.end();
-    }).then((renderedResult) => {
-      response.writeHead(200, headers);
-      response.write(renderedResult.renderedResult, "binary");
-      response.end();
-      console.timeEnd('testPageGenerate');
-    });
-
-  } catch (err) { response.end(); }
-
+        } catch (err) {
+            response.end();
+        }
+    }
 };
 
 /**
@@ -73,19 +79,19 @@ server.on('listening', onListening);
  */
 
 function normalizePort(val) {
-  var port = parseInt(val, 10);
+    var port = parseInt(val, 10);
 
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
+    if (isNaN(port)) {
+        // named pipe
+        return val;
+    }
 
-  if (port >= 0) {
-    // port number
-    return port;
-  }
+    if (port >= 0) {
+        // port number
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 /**
@@ -93,27 +99,27 @@ function normalizePort(val) {
  */
 
 function onError(error) {
-  if (error.syscall !== 'listen') {
-    throw error;
-  }
+    if (error.syscall !== 'listen') {
+        throw error;
+    }
 
-  var bind = typeof port === 'string'
-    ? 'Pipe ' + port
-    : 'Port ' + port;
+    var bind = typeof port === 'string'
+        ? 'Pipe ' + port
+        : 'Port ' + port;
 
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case 'EACCES':
-      console.error(bind + ' requires elevated privileges');
-      process.exit(1);
-      break;
-    case 'EADDRINUSE':
-      console.error(bind + ' is already in use');
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
+    // handle specific listen errors with friendly messages
+    switch (error.code) {
+        case 'EACCES':
+            console.error(bind + ' requires elevated privileges');
+            process.exit(1);
+            break;
+        case 'EADDRINUSE':
+            console.error(bind + ' is already in use');
+            process.exit(1);
+            break;
+        default:
+            throw error;
+    }
 }
 
 /**
@@ -121,9 +127,9 @@ function onError(error) {
  */
 
 function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === 'string'
-    ? 'pipe ' + addr
-    : 'port ' + addr.port;
-  debug('Listening on ' + bind);
+    var addr = server.address();
+    var bind = typeof addr === 'string'
+        ? 'pipe ' + addr
+        : 'port ' + addr.port;
+    debug('Listening on ' + bind);
 }

@@ -1,5 +1,9 @@
 {
   "its.speakers": {
+    "source": {
+      "type": "redis",
+      "key": "/app/its/speakers/properties.json"
+    },
     "data": {
       "h2": "Спикеры:",
       "p": "Это еще не всё! Вернее, ещё не все. Данный раздел будет пополняться.",
@@ -29,43 +33,37 @@
               "id": 1009,
               "name": "Антон Петров",
               "title": "Lead Data Analyst"
-            }
-            ,
+            },
             {
               "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/150/Alexey_Zinovyev.jpg",
               "id": 150,
               "name": "Алексей Зиновьев",
               "title": "Senior Training and Development Specialist"
-            }
-            ,
+            },
             {
               "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/220/Andriy_Filatov.jpg",
               "id": 220,
               "name": "Андрей Филатов",
               "title": "Lead Systems Engineer"
-            }
-            ,
+            },
             {
               "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1010/Ivan_Bovyrin1.JPG",
               "id": 1010,
               "name": "Иван Бовырин",
               "title": "Systems Engineer"
-            }
-            ,
+            },
             {
               "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1012/Pavel_Korshunov.JPG",
               "id": 1012,
               "name": "Павел Коршунов",
               "title": "Senior Software Engineer"
-            }
-            ,
+            },
             {
               "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1011/avatar.jpg",
               "id": 1011,
               "name": "Владимир Потапов",
               "title": "Senior Software Test Automation Engineer"
-            }
-            ,
+            },
             {
               "photo": "https://d1ujii9cn3t0u4.cloudfront.net/uploads/production/speaker/avatar/1008/TnsxMO3LD-U__002_.jpg",
               "id": 1008,

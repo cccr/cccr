@@ -32,6 +32,7 @@ function Fn() {}
  * @param {Object[][]} values - supposed variables, expecting Array for each value
  * @returns {string} return filled and concatenated template
  */
+
 Fn.prototype.loop = function (strings, ...values) {
     var result = '';
 

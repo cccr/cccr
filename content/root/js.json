@@ -1,16 +1,16 @@
 {
-  "general.menu": {
+  "json": {
     "data": {
       "items": {
         "compute.passArrayAsData": {
             "args": [
               {
                 "href": "/",
-                "text": "arg1"
+                "text": "qqq"
               },
               {
                 "href": "/contacts",
-                "text": "arg2"
+                "text": "www"
               }
             ]
         }
