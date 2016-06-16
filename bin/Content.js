@@ -1,3 +1,5 @@
+var url = require("url");
+
 function Content(RenderEngine) {
     this.RenderEngine = RenderEngine;
 }
@@ -9,6 +11,18 @@ function Content(RenderEngine) {
  */
 Content.prototype.read = function () {
     return new Promise((resolve, reject) => {
+        if (this.RenderEngine.contentReference.uri) {
+            var uri = url.parse(this.RenderEngine.contentReference.uri, true);
+            switch (uri.protocol) {
+                case 'redis:':
+                {
+                    this.RenderEngine.contentReference.key = uri.path;
+                    this.RenderEngine.contentReference.type = 'redis';
+                    break;
+                }
+            }
+        }
+
         switch (this.RenderEngine.contentReference.type) {
             case 'fs':
                 var FsRead = require("./_contentReaders/FsRead.js");
@@ -82,7 +96,7 @@ Content.prototype.parseContent = function (readedContent) {
 
                     if (v.parsys) {
                         Object.keys(v.parsys).forEach((k) => {
-                            this.parsys[k] = Content.processParsys(v.parsys[k]);
+                            this.parsys[k] = this.processParsys(k, v.parsys);
                         });
                     }
 
@@ -103,13 +117,19 @@ Content.prototype.parseContent = function (readedContent) {
 
 /**
  * Concatinate generated Strings inside parsys
+ * @param key String
  * @param renderedParsyses Array
  * @returns {string}
  */
-Content.processParsys = function (renderedParsyses) {
-    return renderedParsyses.map((el) => {
-        return el.renderedResult || el.computed
-    }).join(" ");
+Content.prototype.processParsys = function (key, renderedParsyses) {
+    return renderedParsyses[key].map((currentValue, index) => {
+        return this.wrapParsys(key, index, currentValue.renderedResult || currentValue.computed);
+    }).join("");
+};
+
+Content.prototype.wrapParsys = function (key, index, renderedParsyses) {
+    var encodedContentSource = new Buffer(JSON.stringify(this.RenderEngine.contentReference)).toString('base64');
+    return `<div data-contentsrc="${encodedContentSource}" data-parsyssrc="${key}-${index}">${renderedParsyses}</div>`;
 };
 
 Content.parseParsys = function (parsyses, renderEngine) {
@@ -160,6 +180,8 @@ Content.parseParsys = function (parsyses, renderEngine) {
             .then((renderedParsys) => {
                 var result = {};
                 renderedParsys.forEach((renderedParsys) => {
+                    console.log(renderedParsys);
+                    // console.log(renderedParsys);
                     result = Object.assign(result, renderedParsys);
                 });
                 resolve({parsys: result});

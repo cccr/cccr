@@ -1,5 +1,9 @@
 {
   "its.agenda": {
+    "source": {
+      "type": "redis",
+      "key": "/app/its/agenda/properties.json"
+    },
     "data": {
       "h2": "Расписание выступлений:",
       "agenda_link_href": "/events/itsubbotnik-spring-2016/agenda",

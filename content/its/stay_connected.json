@@ -1,3 +1,8 @@
 {
-  "its.stay_connected": {}
+  "its.stay_connected": {
+    "source": {
+      "type": "redis",
+      "key": "/app/its/stay_connected/properties.json"
+    }
+  }
 }

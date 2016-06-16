@@ -1,5 +1,9 @@
 {
   "its.promo.video": {
+    "source": {
+      "type": "redis",
+      "key": "/app/its/promo/video/properties.json"
+    },
     "data": {
       "h2_0": "Как это было",
       "h2_1": "#ITsubbotnik сентябрь 2015",

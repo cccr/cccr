@@ -1,3 +1,8 @@
 {
-  "its.header": {}
+  "its.header": {
+    "source": {
+      "type": "redis",
+      "key": "/app/its/header/properties.json"
+    }
+  }
 }

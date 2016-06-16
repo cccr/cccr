@@ -1,5 +1,9 @@
 {
   "its.promo.hero": {
+    "source": {
+      "type": "redis",
+      "key": "/app/its/promo/hero/properties.json"
+    },
     "data": {
       "h2": "28  мая, Санкт-Петербург",
       "h1": "QA + JAVA + DEVOPS + BIGDATA = #ITSUBBOTNIK",

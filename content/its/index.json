@@ -10,18 +10,17 @@
     "parsys": {
       "header": [
         {
-          "type": "redis",
-          "key": "/content/its/header.json"
+          "uri": "redis://192.168.99.100:6379/content/its/header.json"
         }
       ],
       "main": [
         {
           "type": "redis",
-          "key": "/content/its/promo.hero.json"
+          "key": "/content/its/promo.json"
         },
         {
           "type": "redis",
-          "key": "/content/its/promo.video.json"
+          "key": "/content/its/promo_video.json"
         },
         {
           "type": "redis",
