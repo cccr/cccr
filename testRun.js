@@ -4,6 +4,7 @@ var readdir = require('fs').readdir;
 var testRunner = function(filename) {
     var cmd = `cd ./test && node ./${filename}`;
     exec(cmd, function(error, stdout, stderr) {
+        // console.log(stdout);
         if (!!error) {
             console.log('ERROR in ' + filename);
         } else {

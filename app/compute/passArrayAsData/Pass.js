@@ -1,5 +1,3 @@
-var url = require("url");
-
 function Pass(context) {
     this.args = context.content.args;
     this.re = context.renderEngine;
@@ -14,7 +12,7 @@ Pass.prototype.getResult = function () {
                 result[key] = [];
             });
 
-            var cnt = url.parse(this.re.request.url, true).query.cnt;
+            var cnt = this.re.session.query.cnt;
 
             this.args.slice(0, cnt).forEach(function(obj) {
                 Object.keys(this.args[0]).forEach(function(key) {

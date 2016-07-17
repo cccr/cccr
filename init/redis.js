@@ -1,5 +1,7 @@
+#!/usr/local/bin/node
+
 var redis = require("redis"),
-    client = redis.createClient({"host": "192.168.99.100"}),
+    client = redis.createClient({"host": "localhost", "port": 32768}),
     fs = require('fs'),
     path = require('path');
 

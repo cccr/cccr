@@ -10,7 +10,7 @@
     "parsys": {
       "header": [
         {
-          "uri": "redis://192.168.99.100:6379/content/its/header.json"
+          "uri": "redis://localhost:32768/content/its/header.json"
         }
       ],
       "main": [

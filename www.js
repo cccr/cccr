@@ -7,19 +7,14 @@
 var http = require("http"),
     url = require("url"),
     path = require("path"),
-    debug = require('debug')('http')
+    debug = require('debug')('http');
 
 var CP = require('./bin/ConnectionPool.js');
 var RE = require('./bin/RenderEngine.js');
 
-/**
- * Get port from environment.
- */
 
-console.log(process.argv[2]);
-
-var port = normalizePort(process.env.PORT || process.argv[2] || '8686');
-var headers = {'Content-Type': 'text/html; charset=utf-8'};
+const port = normalizePort(process.env.PORT || process.argv[2] || '8686');
+console.log('port: ' + port);
 
 /**
  * Define app
@@ -27,13 +22,13 @@ var headers = {'Content-Type': 'text/html; charset=utf-8'};
 
 var app = function (request, response) {
     var uri = url.parse(request.url, true).pathname,
-        filename = path.join(process.cwd(), 'content', uri);
+        filename = path.join(process.cwd(), 'content', uri) + '.json';
 
-    // console.log(uri, filename);
+     console.log(uri, filename);
     //var url_parts = url.parse(request.url, true);
     //var query = url_parts.query;
-    if (uri.startsWith("/topics") || uri.startsWith("/images")) {
-        response.writeHead(404, headers);
+    if (uri.startsWith("/topics") || uri.startsWith("/images") || uri.startsWith("/favicon")) {
+        response.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
         response.end();
     } else {
         try {
@@ -42,17 +37,36 @@ var app = function (request, response) {
                 type: 'fs',
                 url: filename
             };
-            var re = new RE(request, response);
-            re.init(content_ref, CP);
-            re.readContent().catch((err) => {
-                console.error(err);
-                response.end();
-            }).then((renderedResult) => {
-                response.writeHead(200, headers);
-                response.write(renderedResult.renderedResult, "utf8");
-                response.end();
-            })
-            ;
+
+            var session = {};
+
+            var re = new RE(request, response, session);
+
+            var readContent = function() {
+                re.readContent().catch((err) => {
+                    console.error(err);
+                    response.end();
+                }).then((renderedResult) => {
+
+                    if (renderedResult.session) {
+                        console.log(JSON.stringify(renderedResult.session));
+
+                    }
+
+                    // renderedResult.session.headers && renderedResult.header
+                    //
+                    // Location: http://www.example.org/
+
+
+                    response.writeHead(renderedResult.session.responseCode, renderedResult.session.headers);
+                    response.write(renderedResult.renderedResult, "utf8");
+                    response.end();
+                });
+            };
+
+
+
+            re.init(content_ref, CP).then(readContent);
 
         } catch (err) {
             response.end();

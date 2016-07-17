@@ -108,7 +108,8 @@ Content.prototype.parseContent = function (readedContent) {
                 });
 
                 this.RenderEngine.render(this, component)
-                    .then((o) => resolve(o));
+                    .then((o) => resolve(o))
+                    .catch((err) => reject(err));
 
             });
         });
@@ -180,7 +181,6 @@ Content.parseParsys = function (parsyses, renderEngine) {
             .then((renderedParsys) => {
                 var result = {};
                 renderedParsys.forEach((renderedParsys) => {
-                    console.log(renderedParsys);
                     // console.log(renderedParsys);
                     result = Object.assign(result, renderedParsys);
                 });
