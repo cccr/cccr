@@ -24,7 +24,7 @@ var app = function (request, response) {
     var uri = url.parse(request.url, true).pathname,
         filename = path.join(process.cwd(), 'content', uri) + '.json';
 
-     console.log(uri, filename);
+    // console.log(uri, filename);
     //var url_parts = url.parse(request.url, true);
     //var query = url_parts.query;
     if (uri.startsWith("/topics") || uri.startsWith("/images") || uri.startsWith("/favicon")) {
@@ -45,6 +45,7 @@ var app = function (request, response) {
             var readContent = function() {
                 re.readContent().catch((err) => {
                     console.error(err);
+                    response.writeHead(500, {'Content-Type': 'text/html; charset=utf-8'});
                     response.end();
                 }).then((renderedResult) => {
 

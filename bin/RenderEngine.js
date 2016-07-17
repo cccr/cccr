@@ -1,4 +1,5 @@
 var Fn = require('./Functions.js');
+var Router = require('./Router.js');
 var fn = new Fn();
 
 RenderEngine.Content = require("./Content.js");
@@ -62,14 +63,18 @@ RenderEngine.prototype.init = function (contentReference, pool) {
 RenderEngine.prototype.readWithContent = function (inputContent) {
     return new Promise((resolve, reject) => {
         var content = new RenderEngine.Content(this);
-        content.parseContent(inputContent).then(resolve);
+        content.parseContent(inputContent)
+            .catch(reject)
+            .then(resolve);
     });
 };
 
 RenderEngine.prototype.readContent = function () {
     var content = new RenderEngine.Content(this);
     return new Promise((resolve, reject) => {
-        content.read().then(resolve);
+        content.read()
+            .catch(reject)
+            .then(resolve);
     });
 };
 
@@ -89,16 +94,27 @@ RenderEngine.prototype.render = function (content, component) {
             });
 
         } else {
-            //var tmplt = new Template(component, content);
             var {data, parsys} = content;
             var session = this.session.storage;
             var output = eval(component.templateString); //tmplt.render();
             console.log(this.renderHierarchyLevel);
-            if (this.renderHierarchyLevel === 0) {
-                resolve({renderedResult: output, session: this.session});
-            } else {
-                resolve({renderedResult: output});
+
+            var router = Router.router();
+            Object.keys(data)
+                .filter((key) => typeof data[key] === 'string')
+                .forEach((a) => data[a] = eval(`\`${data[a]}\``));
+            try {
+                var output = eval(component.templateString);
+                if (this.renderHierarchyLevel === 0) {
+                    resolve({renderedResult: output, session: this.session});
+                } else {
+                    resolve({renderedResult: output});
+                }
+            } catch (error) {
+                reject(error)
             }
+
+
         }
     });
 };

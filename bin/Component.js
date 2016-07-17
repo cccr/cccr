@@ -16,7 +16,7 @@ Component.readComponent = function (componentName, componentSource) {
                 "url": c.propertiesPath(c.componentName)
             };
         c.readComponent()
-            .catch((err) => console.error(err))
+            .catch(reject)
             .then((component) => {
                 resolve(component)
             });
@@ -63,9 +63,6 @@ Component.prototype.readComponent = function () {
         }, (x) => x, () => this.templateString = ''));
 
         Promise.all(promises)
-            .catch((error) => {
-                reject(error)
-            })
             .then(() => {
                 if (this.properties.compute) {
                     var computeScriptPath = this.computeScriptPath(this.properties.script);
@@ -75,6 +72,10 @@ Component.prototype.readComponent = function () {
                     this.templateString = this.properties.isTemplateString ? this.templateString : `\`${this.templateString}\``;
                 }
                 resolve(this)
+            }, (error) => {
+                console.log("5");
+                console.error(error)
+                reject(error)
             });
     });
 };
