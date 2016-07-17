@@ -136,7 +136,7 @@ Content.prototype.parseContent = function (readedContent) {
 
                 }, (error) => {
                     console.log("4");
-                    console.error(error)
+                    console.error(error);
                     reject(error)
                 });
         });
