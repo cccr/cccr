@@ -20,6 +20,19 @@ Content.prototype.read = function () {
                     this.RenderEngine.contentReference.type = 'redis';
                     break;
                 }
+                case 'https:':
+                case 'http:':
+                {
+                    this.RenderEngine.contentReference.type = 'rest';
+                    this.RenderEngine.contentReference.option = {
+                        host: uri.hostname,
+                        port: uri.port,
+                        path: uri.path,
+                        method: 'GET'
+                    };
+                    console.log(this.RenderEngine.contentReference);
+                    break;
+                }
             }
         }
 
@@ -29,6 +42,7 @@ Content.prototype.read = function () {
                 FsRead.run(this.RenderEngine.contentReference.url,
                            (c) => this.parseContent(c),
                            JSON.parse)
+                    .catch(reject)
                     .then((o) => resolve(o));
                 break;
             case 'mongodb':
@@ -36,6 +50,7 @@ Content.prototype.read = function () {
                 MongoDBRequest.run(this.RenderEngine.contentReference,
                                    (c) => this.parseContent(c),
                                    this.RenderEngine)
+                    .catch(reject)
                     .then((o) => resolve(o));
                 break;
             case 'rest':
@@ -43,7 +58,13 @@ Content.prototype.read = function () {
                 HttpRequest.run(this.RenderEngine.contentReference.option,
                                 (c) => this.parseContent(c),
                                 JSON.parse,
-                                this.RenderEngine)
+                                (response) => {
+                                    console.error(response);
+                                    return {
+                                        renderedResult: " "
+                                    }
+                                })
+                    .catch(reject)
                     .then((o) => resolve(o));
                 break;
             case 'redis':
@@ -51,6 +72,7 @@ Content.prototype.read = function () {
                 Redis.run(this.RenderEngine.contentReference.key,
                           (c) => this.parseContent(c),
                           JSON.parse)
+                    .catch(reject)
                     .then((o) => resolve(o));
         }
     });
@@ -86,31 +108,37 @@ Content.prototype.parseContent = function (readedContent) {
                 promises.push(Content.parseParsys(parsys, this.RenderEngine));
             }
 
-            Promise.all(promises).then((parsedContentData) => {
-                parsedContentData.forEach((v) => {
-                    if (v.data) {
-                        Object.keys(v.data).forEach((k) => {
-                            this.data[k] = v.data[k];
-                        });
-                    }
+            Promise.all(promises)
+                .then((parsedContentData) => {
+                    parsedContentData.forEach((v) => {
+                        if (v.data) {
+                            Object.keys(v.data).forEach((k) => {
+                                this.data[k] = v.data[k];
+                            });
+                        }
 
-                    if (v.parsys) {
-                        Object.keys(v.parsys).forEach((k) => {
-                            this.parsys[k] = this.processParsys(k, v.parsys);
-                        });
-                    }
+                        if (v.parsys) {
+                            Object.keys(v.parsys).forEach((k) => {
+                                this.parsys[k] = this.processParsys(k, v.parsys);
+                            });
+                        }
 
-                    if (v.args) {
-                        Object.keys(v.args).forEach((k) => {
-                            this.args[k] = v.args[k];
-                        });
-                    }
+                        if (v.args) {
+                            Object.keys(v.args).forEach((k) => {
+                                this.args[k] = v.args[k];
+                            });
+                        }
+                    });
+
+                    this.RenderEngine.render(this, component)
+                        .catch(reject)
+                        .then((o) => resolve(o));
+
+                }, (error) => {
+                    console.log("4");
+                    console.error(error)
+                    reject(error)
                 });
-
-                this.RenderEngine.render(this, component)
-                    .then((o) => resolve(o));
-
-            });
         });
     })
 };
@@ -159,7 +187,9 @@ Content.parseParsys = function (parsyses, renderEngine) {
                     });
                     resolve(result);
                 }, (error) => {
+                    console.log("3");
                     console.error(error)
+                    reject(error)
                 });
         });
     };
@@ -186,7 +216,9 @@ Content.parseParsys = function (parsyses, renderEngine) {
                 });
                 resolve({parsys: result});
             }, (error) => {
+                console.log("2");
                 console.error(error)
+                reject(error)
             });
     });
 };
@@ -231,7 +263,9 @@ Content.parseData = function (data, renderEngine) {
                         });
                     resolve({data: data});
                 }, (error) => {
+                    console.log("1");
                     console.error(error)
+                    reject(error)
                 });
         } else { //in case there are no complex object and as result no promises
             resolve({data: data});

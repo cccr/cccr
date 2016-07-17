@@ -46,6 +46,7 @@ var app = function (request, response) {
             re.init(content_ref, CP);
             re.readContent().catch((err) => {
                 console.error(err);
+                response.writeHead(500, headers);
                 response.end();
             }).then((renderedResult) => {
                 response.writeHead(200, headers);

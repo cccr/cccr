@@ -5,7 +5,8 @@
       "key": "/app/its/properties.json"
     },
     "data": {
-      "title": "#ITsubbotnik Spring 2016"
+      "title": "#ITsubbotnik Spring 2016",
+      "agenda_link": "${router.agenda_link}"
     },
     "parsys": {
       "header": [
@@ -15,16 +16,13 @@
       ],
       "main": [
         {
-          "type": "redis",
-          "key": "/content/its/promo.json"
+          "uri": "redis://192.168.99.100:6379/content/its/promo.json"
         },
         {
-          "type": "redis",
-          "key": "/content/its/promo_video.json"
+          "uri": "redis://192.168.99.100:6379/content/its/promo_video.json"
         },
         {
-          "type": "redis",
-          "key": "/content/its/speakers.json"
+          "uri": "http://localhost:8080/speakers.json"
         },
         {
           "type": "redis",
