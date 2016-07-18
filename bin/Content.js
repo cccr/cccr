@@ -210,7 +210,6 @@ Content.parseParsys = function (parsyses, renderEngine) {
             .then((renderedParsys) => {
                 var result = {};
                 renderedParsys.forEach((renderedParsys) => {
-                    console.log(renderedParsys);
                     // console.log(renderedParsys);
                     result = Object.assign(result, renderedParsys);
                 });

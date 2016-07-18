@@ -21,14 +21,13 @@ Auth.prototype.getResult = function () {
                 scope: ['https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/userinfo.email'] // can be a space-delimited string or an array of scopes
             });
 
-            console.log(url);
-            console.log(JSON.stringify(this.re.request));
+            var referer = this.re.request.headers.referer;
+            if (referer) {
+                ObjectUtils.setKey(this.re.session, ['headers', 'Set-Cookie'], 'redirectToUrl=' + referer);
+            }
 
             ObjectUtils.setKey(this.re.session, ['headers', 'Location'], url);
             ObjectUtils.setKey(this.re.session, ['responseCode'], 301);
-
-            // this.re.session.header.redirectUrl = url;
-            console.log(this.re.session.query);
 
             resolve({'computed': url});
         } catch (err) {

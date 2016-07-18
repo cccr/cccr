@@ -16,13 +16,13 @@
       ],
       "main": [
         {
-          "uri": "redis://192.168.99.100:6379/content/its/promo.json"
+          "uri": "redis://localhost:32768/content/its/promo.json"
         },
         {
-          "uri": "redis://192.168.99.100:6379/content/its/promo_video.json"
+          "uri": "redis://localhost:32768/content/its/promo_video.json"
         },
         {
-          "uri": "http://localhost:8080/speakers.json"
+          "uri": "redis://localhost:32768/content/its/speakers.json"
         },
         {
           "type": "redis",

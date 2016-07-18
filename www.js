@@ -50,14 +50,9 @@ var app = function (request, response) {
                 }).then((renderedResult) => {
 
                     if (renderedResult.session) {
-                        console.log(JSON.stringify(renderedResult.session));
+                        // console.log(JSON.stringify(renderedResult.session));
 
                     }
-
-                    // renderedResult.session.headers && renderedResult.header
-                    //
-                    // Location: http://www.example.org/
-
 
                     response.writeHead(renderedResult.session.responseCode, renderedResult.session.headers);
                     response.write(renderedResult.renderedResult, "utf8");

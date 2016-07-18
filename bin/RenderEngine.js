@@ -97,7 +97,7 @@ RenderEngine.prototype.render = function (content, component) {
             var {data, parsys} = content;
             var session = this.session.storage;
             var output = eval(component.templateString); //tmplt.render();
-            console.log(this.renderHierarchyLevel);
+            // console.log(this.renderHierarchyLevel);
 
             var router = Router.router();
             Object.keys(data)
