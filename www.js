@@ -9,9 +9,10 @@ var http = require("http"),
     path = require("path"),
     debug = require('debug')('http');
 
-var CP = require('./bin/ConnectionPool.js');
-var RE = require('./bin/RenderEngine.js');
-
+var CP = require('./bin/ConnectionPool');
+var RE = require('./bin/RenderEngine');
+var Session = require('./bin/Session');
+var ObjectUtils = require('./bin/ObjectUtils');
 
 const port = normalizePort(process.env.PORT || process.argv[2] || '8686');
 console.log('port: ' + port);
@@ -38,31 +39,60 @@ var app = function (request, response) {
                 url: filename
             };
 
-            var session = {};
+            var cookies = parseCookies(request);
+            var sessionKey = cookies.session;
+            var session = {
+                key: sessionKey,
+                query: url.parse(request.url, true).query,
+                cookies: cookies,
+                responseCode: 200,
+                setCookie: [],
+                headers: {
+                    'Content-Type': 'text/html; charset=utf-8'
+                }
+            };
 
-            var re = new RE(request, response, session);
+            var checkSession = () => {
+                if (!sessionKey) {
+                    Session.new("{}").then((key) => {
+                        session.key = key;
+                        session.setCookie.push('session=' + key);
+                        onFulfilled("{}");
+                    });
+                } else {
+                    Session.get(session.key)
+                        .catch(console.error)
+                        .then((storage) => {
+                            onFulfilled(storage)
+                        });
+                }
+            };
 
-            var readContent = function() {
+            checkSession();
+
+            var onFulfilled = function (storage) {
+                session.storage = storage;
+                var re = new RE(request, response, session);
+                re.init(content_ref, CP).catch(console.error).then(readContent);
+            };
+
+            var readContent = function (re) {
                 re.readContent().catch((err) => {
                     console.error(err);
                     response.writeHead(500, {'Content-Type': 'text/html; charset=utf-8'});
                     response.end();
                 }).then((renderedResult) => {
-
                     if (renderedResult.session) {
-                        // console.log(JSON.stringify(renderedResult.session));
+                        console.log("key", JSON.stringify(renderedResult.session.key));
+                        console.log("storage", JSON.stringify(renderedResult.session.storage));
 
                     }
-
+                    response.setHeader("Set-Cookie", renderedResult.session.setCookie);
                     response.writeHead(renderedResult.session.responseCode, renderedResult.session.headers);
                     response.write(renderedResult.renderedResult, "utf8");
                     response.end();
                 });
             };
-
-
-
-            re.init(content_ref, CP).then(readContent);
 
         } catch (err) {
             response.end();
@@ -142,4 +172,19 @@ function onListening() {
         ? 'pipe ' + addr
         : 'port ' + addr.port;
     debug('Listening on ' + bind);
+}
+
+function parseCookies(request) {
+    if (!request.headers) {
+        return {};
+    }
+    var list = {},
+        rc = request.headers.cookie;
+
+    rc && rc.split(';').forEach(function (cookie) {
+        var parts = cookie.split('=');
+        list[parts.shift().trim()] = decodeURI(parts.join('='));
+    });
+
+    return list;
 }

@@ -2,7 +2,13 @@
   "json": {
     "data": {
       "items": {
-        "compute.auth.google_callback": {}
+        "compute.auth.google_callback": {
+          "args": [
+            {
+
+            }
+          ]
+        }
       }
     }
   }

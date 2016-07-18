@@ -8,9 +8,9 @@
   },
   "dependencies": {
     "debug": "~2.2.0",
+    "googleapis": "11.0.0",
     "mongodb": "~2.1.20",
-    "redis": ">=2.6.1",
-    "googleapis": "11.0.0"
+    "redis": ">=2.6.1"
   },
   "engine": "node >=6.2.0"
 }

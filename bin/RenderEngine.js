@@ -12,31 +12,6 @@ function RenderEngine(request, response, session) {
 
     if (session) {
         this.session = session;
-        var url = require("url");
-
-        function parseCookies(request) {
-            var list = {},
-                rc = request.headers.cookie;
-
-            rc && rc.split(';').forEach(function (cookie) {
-                var parts = cookie.split('=');
-                list[parts.shift().trim()] = decodeURI(parts.join('='));
-            });
-
-            return list;
-        }
-
-        this.session = {
-            storage: {},
-            query: url.parse(this.request.url, true).query,
-            cookies: parseCookies(request),
-            responseCode: 200,
-            headers: {'Content-Type': 'text/html; charset=utf-8'}
-        };
-
-
-
-
     }
     // console.log(this.request);
 }
@@ -51,10 +26,12 @@ RenderEngine.prototype.clone = function () {
 
 RenderEngine.prototype.init = function (contentReference, pool) {
     return new Promise((resolve, reject) => {
-        if (pool) this.pool = pool;
+        if (pool) {
+            this.pool = pool;
+        }
         this.contentReference = contentReference;
 
-        resolve();
+        resolve(this);
     });
 
     //this.session =
@@ -113,7 +90,6 @@ RenderEngine.prototype.render = function (content, component) {
             } catch (error) {
                 reject(error)
             }
-
 
         }
     });

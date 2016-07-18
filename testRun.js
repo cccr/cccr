@@ -7,6 +7,7 @@ var testRunner = function(filename) {
         // console.log(stdout);
         if (!!error) {
             console.log('ERROR in ' + filename);
+            // console.log(error);
         } else {
             console.log(filename + ' successfully');
         }

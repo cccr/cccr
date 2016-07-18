@@ -9,7 +9,7 @@ function MongoDBRequest({id, callback, collection, resolve, reject, context}) {
     this.context = context;
 }
 
-MongoDBRequest.run = function(_connectionURL, _callback, context) {
+MongoDBRequest.run = function (_connectionURL, _callback, context) {
 
 //console.log(arguments);
 
@@ -30,9 +30,11 @@ MongoDBRequest.run = function(_connectionURL, _callback, context) {
     });
 };
 
-MongoDBRequest.prototype._findContentDB = function(database) {
-    database.collection(this.collectionName).findOne({"_id": new ObjectId(this.id)}, { _id: 0, qty: 0 },
-        (err, doc) => {
+MongoDBRequest.prototype._findContentDB = function (database) {
+    database.collection(this.collectionName)
+        .find({"_id": new ObjectId(this.id)}, {_id: 0, qty: 0})
+        .limit(1)
+        .next((err, doc) => {
             if (err || doc === null) {
                 this.reject(err || new Error("doc is null"));
             }

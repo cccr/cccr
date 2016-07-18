@@ -6,6 +6,9 @@ var ObjectUtils = require("../../../../bin/ObjectUtils");
 
 function Callback(context) {
     this.re = context.renderEngine;
+    this.args = context.content.args;
+    const {CLIENT_ID, CLIENT_SECRET, REDIRECT_URL} = this.args[0];
+    this.oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 }
 
 Callback.prototype.getResult = function () {
@@ -17,20 +20,15 @@ Callback.prototype.getResult = function () {
                 return reject(new Error('no code'));
             }
 
-            var CLIENT_ID = '';
-            var CLIENT_SECRET = '';
-            var REDIRECT_URL = 'http://localhost:8686/oauth2callback';
-
-            var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
-            oauth2Client.getToken(code, (err, tokens) => {
+            this.oauth2Client.getToken(code, (err, tokens) => {
                 if (err) {
                     return callback(err);
                 }
-                oauth2Client.setCredentials(tokens);
+                this.oauth2Client.setCredentials(tokens);
 
                 //TODO save tokens to session
 
-                plus.people.get({ userId: 'me', auth: oauth2Client }, (err, profile) => {
+                plus.people.get({ userId: 'me', auth: this.oauth2Client }, (err, profile) => {
                     if (err) {
                         console.err(err);
                         reject(err);
@@ -41,7 +39,7 @@ Callback.prototype.getResult = function () {
                     var redirectToUrl = this.re.session.cookies.redirectToUrl;
                     if(redirectToUrl) {
                         ObjectUtils.setKey(this.re.session, ['headers', 'Location'], redirectToUrl);
-                        ObjectUtils.setKey(this.re.session, ['headers', 'Set-Cookie'], 'redirectToUrl=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT');
+                        this.re.session.setCookie.push('redirectToUrl=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT');
                         ObjectUtils.setKey(this.re.session, ['responseCode'], 301);
                     }
 
