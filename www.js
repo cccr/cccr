@@ -4,15 +4,15 @@
  * Module dependencies.
  */
 
-var http = require("http"),
+const http = require("http"),
     url = require("url"),
     path = require("path"),
     debug = require('debug')('http');
 
-var CP = require('./bin/ConnectionPool');
-var RE = require('./bin/RenderEngine');
-var Session = require('./bin/Session');
-var ObjectUtils = require('./bin/ObjectUtils');
+const CP = require('./bin/ConnectionPool'),
+    RE = require('./bin/RenderEngine'),
+    Session = require('./bin/Session'),
+    ObjectUtils = require('./bin/ObjectUtils');
 
 const port = normalizePort(process.env.PORT || process.argv[2] || '8686');
 console.log('port: ' + port);
@@ -22,89 +22,128 @@ console.log('port: ' + port);
  */
 
 var app = function (request, response) {
-    var uri = url.parse(request.url, true).pathname,
-        filename = path.join(process.cwd(), 'content', uri) + '.json';
 
-    // console.log(uri, filename);
-    //var url_parts = url.parse(request.url, true);
-    //var query = url_parts.query;
-    if (uri.startsWith("/topics") || uri.startsWith("/images") || uri.startsWith("/favicon")) {
-        response.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
-        response.end();
-    } else {
-        try {
-
-            var content_ref = {
-                type: 'fs',
-                url: filename
-            };
-
-            var cookies = parseCookies(request);
-            var sessionKey = cookies.session;
-            var session = {
-                key: sessionKey,
-                query: url.parse(request.url, true).query,
-                cookies: cookies,
-                responseCode: 200,
-                setCookie: [],
-                headers: {
-                    'Content-Type': 'text/html; charset=utf-8'
-                }
-            };
-
-            var checkSession = () => {
-                if (!sessionKey) {
-                    Session.new("{}").then((key) => {
-                        session.key = key;
-                        session.setCookie.push('session=' + key);
-                        onFulfilled("{}");
-                    });
-                } else {
-                    Session.get(session.key)
-                        .catch(console.error)
-                        .then((storage) => {
-                            onFulfilled(storage)
-                        });
-                }
-            };
-
-            checkSession();
-
-            var onFulfilled = function (storage) {
-                session.storage = storage;
-                var re = new RE(request, response, session);
-                re.init(content_ref, CP).catch(console.error).then(readContent);
-            };
-
-            var readContent = function (re) {
-                re.readContent().catch((err) => {
-                    console.error(err);
-                    response.writeHead(500, {'Content-Type': 'text/html; charset=utf-8'});
-                    response.end();
-                }).then((renderedResult) => {
-                    if (renderedResult.session) {
-                        console.log("key", JSON.stringify(renderedResult.session.key));
-                        console.log("storage", JSON.stringify(renderedResult.session.storage));
-
+    var readBody = function () {
+        return new Promise((resolve, reject) => {
+            var body = [];
+            if (request.method === 'POST') {
+                request.on('data', function (chunk) {
+                    //TODO check all this shit
+                    body.push(chunk);
+                    console.log(chunk.length);
+                    console.log(body.length);
+                    if (body.length > 4) {
+                        // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
+                        request.connection.destroy();
+                        reject();
                     }
-                    response.setHeader("Set-Cookie", renderedResult.session.setCookie);
-                    response.writeHead(renderedResult.session.responseCode, renderedResult.session.headers);
-                    response.write(renderedResult.renderedResult, "utf8");
-                    response.end();
+                }).on('end', function () {
+                    resolve(Buffer.concat(body).toString());
+                    console.log(body);
+                    console.log(1);
                 });
-            };
+            } else {
+                resolve('');
+            }
+        })
+    };
 
-        } catch (err) {
-            response.end();
-        }
-    }
+    readBody()
+        .catch(() => console.error(new Error('flood')))
+        .then((body) => {
+
+
+            var uri = url.parse(request.url, true).pathname,
+                filename = path.join(process.cwd(), 'content', uri) + '.json';
+
+            // console.log(uri, filename);
+            //var url_parts = url.parse(request.url, true);
+            //var query = url_parts.query;
+            if (uri.startsWith("/topics") || uri.startsWith("/images") || uri.startsWith("/favicon")) {
+                response.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
+                response.end();
+            } else {
+                try {
+
+                    var content_ref = {
+                        type: 'fs',
+                        url: filename
+                    };
+
+                    var cookies = parseCookies(request);
+                    var sessionKey = cookies.session;
+                    var session = {
+                        data: body,
+                        key: sessionKey,
+                        query: url.parse(request.url, true).query,
+                        cookies: cookies,
+                        responseCode: 200,
+                        setCookie: [],
+                        headers: {
+                            'Content-Type': 'text/html; charset=utf-8'
+                        }
+                    };
+
+                    var onFulfilled = function () {
+                        console.log(session);
+                        var re = new RE(request, response, session);
+                        re.init(content_ref, CP).catch(console.error).then((re) => readContent(re));
+                    };
+
+                    var checkSession = () => {
+                        if (!sessionKey) {
+                            var key = Session.generate_key();
+                            console.log(key);
+                            Session.new(key, "{}")
+                                .catch(console.error)
+                                .then(console.log);
+                            session.key = key;
+                            session.setCookie.push('session=' + key);
+                            session.storage = {};
+                            onFulfilled();
+                        } else {
+                            Session.get(session.key)
+                                .catch(console.error)
+                                .then((storage) => {
+                                    session.storage = JSON.parse(storage);
+                                    onFulfilled()
+                                });
+                        }
+                    };
+
+                    checkSession();
+
+
+                    var readContent = function (re) {
+                        re.readContent().catch((err) => {
+                            console.error(err);
+                            response.writeHead(500, {'Content-Type': 'text/html; charset=utf-8'});
+                            response.end();
+                        }).then((renderedResult) => {
+                            if (renderedResult.session) {
+                                Session.new(renderedResult.session.key, JSON.stringify(renderedResult.session.storage))
+                                    .catch(console.error)
+                                    .then(console.log);
+                            }
+                            response.setHeader("Set-Cookie", renderedResult.session.setCookie);
+                            response.writeHead(renderedResult.session.responseCode, renderedResult.session.headers);
+                            response.write(renderedResult.renderedResult, "utf8");
+                            response.end();
+                        });
+                    };
+
+                } catch (err) {
+                    response.end();
+                }
+            }
+        });
 };
 
 /**
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+const server = http.createServer(app);
 
 /**
  * Listen on provided port, on all network interfaces.

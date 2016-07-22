@@ -1,5 +1,7 @@
 var url = require("url");
 
+var logger = require('./Logger').Content;
+
 function Content(RenderEngine) {
     this.RenderEngine = RenderEngine;
 }
@@ -30,7 +32,6 @@ Content.prototype.read = function () {
                         path: uri.path,
                         method: 'GET'
                     };
-                    console.log(this.RenderEngine.contentReference);
                     break;
                 }
             }
@@ -59,7 +60,7 @@ Content.prototype.read = function () {
                                 (c) => this.parseContent(c),
                                 JSON.parse,
                                 (response) => {
-                                    console.error(response);
+                                    logger.error('Content.read rest', response);
                                     return {
                                         renderedResult: " "
                                     }
@@ -136,7 +137,7 @@ Content.prototype.parseContent = function (readedContent) {
 
                 }, (error) => {
                     console.log("4");
-                    console.error(error);
+                    logger.error('Content.parseContent', error);
                     reject(error)
                 });
         });

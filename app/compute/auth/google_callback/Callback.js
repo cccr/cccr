@@ -43,6 +43,8 @@ Callback.prototype.getResult = function () {
                         ObjectUtils.setKey(this.re.session, ['responseCode'], 301);
                     }
 
+                    this.re.session.storage.googleProfile = profile;
+
                     resolve({'computed': profile});
                 });
             });

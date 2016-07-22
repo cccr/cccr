@@ -5,12 +5,13 @@ function Pass(context) {
 
 Pass.prototype.getResult = function () {
     return new Promise(function(resolve, reject) {
-        try{
+        try {
             var result = {};
 
-            Object.keys(this.args[0]).forEach(function(key) {
-                result[key] = [];
-            });
+            fn = () => {
+                Object.keys(this.args[0]).forEach(function (key) {
+                    result[key] = [];
+                });
 
             var cnt = this.re.session.query.cnt;
 
@@ -20,11 +21,30 @@ Pass.prototype.getResult = function () {
                 });
             }.bind(this));
 
+                resolve({'computed': result});
+            };
 
-            resolve({'computed': result});
-//            return result;
+            if (typeof this.args === 'object' && !Array.isArray(this.args)) {
+                var ObjectUtils = require("../../../../bin/ObjectUtils.js");
+                var componentName = ObjectUtils.getUniqueKey(this.args);
+                var source = this.args[componentName].source;
 
-        } catch(err) {
+                var Component = require("../../../../bin/Component.js");
+                Component.readComponent(componentName, source)
+                    .catch((err) => console.error(err))
+                    .then((component) => {
+                        var re = this.re.clone();
+                        re.render(null, component)
+                            .catch((err) => console.error(err))
+                            .then((computedArray) => {
+                                this.args = computedArray.renderedResult || computedArray.computed;
+                                fn();
+                            })
+                    });
+            } else {
+                fn();
+            }
+        } catch (err) {
             reject(err);
         }
     }.bind(this));

@@ -1,5 +1,5 @@
 var redis = require("redis"),
-    client = redis.createClient({"host": "192.168.99.100", "port": 6379});
+    client = redis.createClient({"host": "localhost", "port": 32768});
 var crypto = require('crypto');
 
 Session.generate_key = function() {
@@ -10,14 +10,13 @@ Session.generate_key = function() {
 
 function Session() {}
 
-Session.new = function(content) {
+Session.new = function(key, content) {
     return new Promise((resolve, reject) => {
-        var key = Session.generate_key();
-        client.set(key, content, (err, reply) => {
+        client.setex(key, 604800, content, (err, reply) => {
             if (err) {
                 reject(err);
             }
-            resolve(key)
+            resolve(reply)
         });
     })
 };

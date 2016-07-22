@@ -1,6 +1,8 @@
-var Fn = require('./Functions.js');
-var Router = require('./Router.js');
-var fn = new Fn();
+const logger = require('./Logger').RenderEngine;
+
+const Fn = require('./Functions.js');
+const Router = require('./Router.js');
+const fn = new Fn();
 
 RenderEngine.Content = require("./Content.js");
 
@@ -13,7 +15,7 @@ function RenderEngine(request, response, session) {
     if (session) {
         this.session = session;
     }
-    // console.log(this.request);
+    logger.debug('constructed');
 }
 
 RenderEngine.prototype.clone = function () {
@@ -30,6 +32,7 @@ RenderEngine.prototype.init = function (contentReference, pool) {
             this.pool = pool;
         }
         this.contentReference = contentReference;
+        logger.debug('initialized');
 
         resolve(this);
     });
@@ -38,6 +41,7 @@ RenderEngine.prototype.init = function (contentReference, pool) {
 };
 
 RenderEngine.prototype.readWithContent = function (inputContent) {
+    logger.debug('readWithContent()', inputContent);
     return new Promise((resolve, reject) => {
         var content = new RenderEngine.Content(this);
         content.parseContent(inputContent)
@@ -47,6 +51,7 @@ RenderEngine.prototype.readWithContent = function (inputContent) {
 };
 
 RenderEngine.prototype.readContent = function () {
+    logger.debug('readContent()');
     var content = new RenderEngine.Content(this);
     return new Promise((resolve, reject) => {
         content.read()
@@ -55,9 +60,17 @@ RenderEngine.prototype.readContent = function () {
     });
 };
 
+/**
+ *
+ * @param content
+ * @param Component component
+ * @returns {Promise}
+ */
 RenderEngine.prototype.render = function (content, component) {
     return new Promise((resolve, reject) => {
+        console.log(component.componentName);
         if (component.properties.compute) {
+            logger.debug('render() compute', component.componentName);
             var context = {
                 'component': component,
                 'content': content,
@@ -66,15 +79,15 @@ RenderEngine.prototype.render = function (content, component) {
 
             var computed = new component.computeScriptObject(context);
             computed.getResult().then((o) => resolve(o)).catch((err) => {
-                console.error(err);
+                logger.error('render() computed getResult', component.componentName, component.source, err);
                 reject(err);
             });
 
         } else {
             var {data, parsys} = content;
             var session = this.session.storage;
-            var output = eval(component.templateString); //tmplt.render();
-            // console.log(this.renderHierarchyLevel);
+            var output = eval(component.templateString);
+            logger.debug('render() renderHierarchyLevel', this.renderHierarchyLevel);
 
             var router = Router.router();
             Object.keys(data)
@@ -83,8 +96,10 @@ RenderEngine.prototype.render = function (content, component) {
             try {
                 var output = eval(component.templateString);
                 if (this.renderHierarchyLevel === 0) {
+                    logger.debug('render() resolve', output, this.session);
                     resolve({renderedResult: output, session: this.session});
                 } else {
+                    logger.debug('render() resolve', output);
                     resolve({renderedResult: output});
                 }
             } catch (error) {
