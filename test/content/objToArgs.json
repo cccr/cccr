@@ -1,0 +1,13 @@
+{
+  "json": {
+    "data": {
+      "items": {
+        "compute.passArrayAsData": {
+          "args": {
+            "compute.simpleArray": {}
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+{
+  "keepUnwrapped" : ["${data.items.href}", "${data.items.text}"],
+  "isTemplateString" : true
+}
