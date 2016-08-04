@@ -1,7 +1,11 @@
 var port = 8854;
 var http = require("http");
-var CP = require('../bin/ConnectionPool.js');
-var RE = require('../bin/RenderEngine.js');
+
+require('app-module-path').addPath('../lib');
+require('app-module-path').addPath('../bin');
+
+var CP = require('ConnectionPool');
+var RE = require('RenderEngine');
 
 var headers = {"Content-Type": "application/json"};
 
@@ -37,7 +41,7 @@ var content_ref = {
     }
 };
 
-var re = new RE();
+var re = new RE({url: 'qwe://qwe.qwe/qwe?qwe=qwe'}, {}, {});
 re.init(content_ref, CP);
 re.readContent().catch((err) => {
     console.error(err);

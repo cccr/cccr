@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "node ./www.js",
-    "dev_start": "export $(cat ../nodejs/.env.develop | xargs) && node ./www.js"
+    "dev_start": "export $(cat ../nodejs/.env.develop | xargs) && node ./www.js",
+    "test": "node ./testRun.js"
   },
   "dependencies": {
     "app-module-path": "^1.1.0",

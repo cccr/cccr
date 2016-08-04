@@ -2,8 +2,11 @@ var MongoClient = require('mongodb').MongoClient
     , assert = require('assert')
     , ObjectId = require('mongodb').ObjectID;
 
-var CP = require('../bin/ConnectionPool.js');
-var RE = require('../bin/RenderEngine.js');
+require('app-module-path').addPath('../lib');
+require('app-module-path').addPath('../bin');
+
+var CP = require('ConnectionPool');
+var RE = require('RenderEngine');
 
 var collection = 'testData';
 var content_ref = {

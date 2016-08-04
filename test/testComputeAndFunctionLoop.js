@@ -1,5 +1,8 @@
-var CP = require('../bin/ConnectionPool.js');
-var RE = require('../bin/RenderEngine.js');
+require('app-module-path').addPath('../lib');
+require('app-module-path').addPath('../bin');
+
+var CP = require('ConnectionPool');
+var RE = require('RenderEngine');
 
 var testName = 'testComputeAndFunctionLoop';
 
@@ -9,7 +12,7 @@ var content_ref = {
     url: './content/computePlusFunc.json'
 };
 
-var re = new RE();
+var re = new RE({url: 'qwe://qwe.qwe/qwe?qwe=qwe'}, {}, {});
 re.init(content_ref, CP);
 re.readContent().catch((err) => {
     console.error(err);
