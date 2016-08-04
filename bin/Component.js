@@ -1,6 +1,6 @@
-var PathModule = require("path");
+var PathModule = require('path');
 
-var logger = require('./Logger').Component;
+var logger = require('Logger').Component;
 
 const PROPERTIES_FILENAME = 'properties.json';
 const TEMPLATE_FILENAME = 'template.html';
@@ -17,8 +17,8 @@ Component.readComponent = function (componentName, componentSource) {
         var c = new Component();
         c.componentName = componentName;
         c.source = componentSource || {
-                "type": "fs",
-                "url": c.propertiesPath(c.componentName)
+                'type': 'fs',
+                'url': c.propertiesPath(c.componentName)
             };
         c.readComponent()
             .catch(reject)
@@ -35,18 +35,18 @@ Component.prototype.readComponent = function () {
     var defaultValuesPath;
 
     switch (this.source.type) {
-        case "fs":
-            contentReader = require("./_contentReaders/FsRead.js");
+        case 'fs':
+            contentReader = require('_contentReaders/FsRead');
             templatePath = this.templatePath();
             defaultValuesPath = this.defaultValuesPath();
             break;
-        case "rest":
-            contentReader = require("./_contentReaders/HttpRequest.js");
+        case 'rest':
+            contentReader = require('_contentReaders/HttpRequest');
             templatePath = this.source.url.replace(PROPERTIES_FILENAME, TEMPLATE_FILENAME);
             defaultValuesPath = this.source.url.replace(PROPERTIES_FILENAME, DEFAULT_VALUES_FILENAME);
             break;
-        case "redis":
-            contentReader = require("./_contentReaders/Redis.js");
+        case 'redis':
+            contentReader = require('_contentReaders/Redis');
             templatePath = this.source.key.replace(PROPERTIES_FILENAME, TEMPLATE_FILENAME);
             defaultValuesPath = this.source.key.replace(PROPERTIES_FILENAME, DEFAULT_VALUES_FILENAME);
             break;

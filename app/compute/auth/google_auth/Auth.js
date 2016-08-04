@@ -1,5 +1,5 @@
 var google = require('googleapis');
-var ObjectUtils = require("../../../../bin/ObjectUtils");
+var ObjectUtils = require('ObjectUtils');
 var OAuth2Client = google.auth.OAuth2;
 
 function Auth(context) {

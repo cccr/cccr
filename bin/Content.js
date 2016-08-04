@@ -1,4 +1,4 @@
-var url = require("url");
+var url = require('url');
 
 var logger = require('./Logger').Content;
 
@@ -43,7 +43,7 @@ Content.prototype.read = function () {
 
         switch (this.RenderEngine.contentReference.type) {
             case 'fs':
-                var FsRead = require("./_contentReaders/FsRead.js");
+                var FsRead = require('_contentReaders/FsRead');
                 FsRead.run(this.RenderEngine.contentReference.url,
                     (c) => this.parseContent(c),
                     JSON.parse)
@@ -51,7 +51,7 @@ Content.prototype.read = function () {
                     .then((o) => resolve(o));
                 break;
             case 'mongodb':
-                var MongoDBRequest = require("./_contentReaders/MongoDBRequest.js");
+                var MongoDBRequest = require('_contentReaders/MongoDBRequest');
                 MongoDBRequest.run(this.RenderEngine.contentReference,
                     (c) => this.parseContent(c),
                     this.RenderEngine)
@@ -59,21 +59,21 @@ Content.prototype.read = function () {
                     .then((o) => resolve(o));
                 break;
             case 'rest':
-                var HttpRequest = require("./_contentReaders/HttpRequest.js");
+                var HttpRequest = require('_contentReaders/HttpRequest.js');
                 HttpRequest.run(this.RenderEngine.contentReference.option,
                     (c) => this.parseContent(c),
                     JSON.parse,
                     (response) => {
                         logger.error('Content.read rest', response);
                         return {
-                            renderedResult: " "
+                            renderedResult: ' '
                         }
                     })
                     .catch(reject)
                     .then((o) => resolve(o));
                 break;
             case 'redis':
-                var Redis = require("./_contentReaders/Redis.js");
+                var Redis = require('_contentReaders/Redis.js');
                 Redis.run(this.RenderEngine.contentReference.key,
                     (c) => this.parseContent(c),
                     JSON.parse)
@@ -92,12 +92,12 @@ Content.prototype.read = function () {
  */
 Content.prototype.parseContent = function (readedContent) {
     return new Promise((resolve, reject) => {
-        var ObjectUtils = require("../bin/ObjectUtils.js");
+        var ObjectUtils = require('ObjectUtils');
         this.componentName = ObjectUtils.getUniqueKey(readedContent);
         this.source = readedContent[this.componentName].source;
         logger.debug('parseContent()', this.componentName);
 
-        var Component = require("../bin/Component.js");
+        var Component = require('Component');
         Component.readComponent(this.componentName, this.source).then((component) => {
             var promises = [];
 

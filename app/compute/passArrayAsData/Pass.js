@@ -29,7 +29,7 @@ Pass.prototype.getResult = function () {
                 var componentName = ObjectUtils.getUniqueKey(this.args);
                 var source = this.args[componentName].source;
 
-                var Component = require('Component.js');
+                var Component = require('Component');
                 Component.readComponent(componentName, source)
                     .catch((err) => console.error(err))
                     .then((component) => {

@@ -2,7 +2,7 @@ var google = require('googleapis');
 var OAuth2Client = google.auth.OAuth2;
 var plus = google.plus('v1');
 
-var ObjectUtils = require("../../../../bin/ObjectUtils");
+var ObjectUtils = require('ObjectUtils');
 
 function Callback(context) {
     this.re = context.renderEngine;
