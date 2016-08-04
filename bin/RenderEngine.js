@@ -1,10 +1,10 @@
 const logger = require('./Logger').RenderEngine;
 
-const Fn = require('./Functions.js');
-const Router = require('./Router.js');
+const Fn = require('Functions');
+const Constants = require('Constants');
 const fn = new Fn();
 
-RenderEngine.Content = require("./Content.js");
+RenderEngine.Content = require('Content');
 
 function RenderEngine(request, response, session) {
     this.request = request;
@@ -42,6 +42,7 @@ RenderEngine.prototype.init = function (contentReference, pool) {
 
 RenderEngine.prototype.readWithContent = function (inputContent) {
     logger.debug('readWithContent()', inputContent);
+
     return new Promise((resolve, reject) => {
         var content = new RenderEngine.Content(this);
         content.parseContent(inputContent)
@@ -68,7 +69,6 @@ RenderEngine.prototype.readContent = function () {
  */
 RenderEngine.prototype.render = function (content, component) {
     return new Promise((resolve, reject) => {
-        console.log(component.componentName);
         if (component.properties.compute) {
             logger.debug('render() compute', component.componentName);
             var context = {
@@ -78,18 +78,21 @@ RenderEngine.prototype.render = function (content, component) {
             };
 
             var computed = new component.computeScriptObject(context);
-            computed.getResult().then((o) => resolve(o)).catch((err) => {
-                logger.error('render() computed getResult', component.componentName, component.source, err);
-                reject(err);
-            });
+            computed.getResult()
+                .catch((err) => {
+                    logger.error('render() computed getResult', component.componentName, component.source, err);
+                    reject(err);
+                })
+                .then((o) => resolve(o));
 
         } else {
             var {data, parsys} = content;
             var session = this.session.storage;
-            var output = eval(component.templateString);
+            logger.debug('render() data', data);
+            logger.debug('render() parsys', parsys);
+            // var output = eval(component.templateString);
             logger.debug('render() renderHierarchyLevel', this.renderHierarchyLevel);
 
-            var router = Router.router();
             Object.keys(data)
                 .filter((key) => typeof data[key] === 'string')
                 .forEach((a) => data[a] = eval(`\`${data[a]}\``));

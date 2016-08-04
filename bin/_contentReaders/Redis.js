@@ -1,5 +1,5 @@
 var redis = require("redis"),
-    client = redis.createClient({"host": "localhost", "port": 32768});
+    client = redis.createClient({"host": "redis", "port": 6379});
 
 function Redis() {}
 

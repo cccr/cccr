@@ -1,0 +1,19 @@
+{
+  "index": {
+
+  },
+  "block": {
+    "add": {
+      "__ref": {
+        "type": "fs",
+        "url": "/block/add"
+      }
+    },
+    "delete": {
+      "__ref": {
+        "type": "fs",
+        "url": "/block/delete"
+      }
+    }
+  }
+}

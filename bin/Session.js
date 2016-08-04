@@ -1,8 +1,11 @@
-var redis = require("redis"),
-    client = redis.createClient({"host": "localhost", "port": 32768});
+var redis = require('redis'),
+    client = redis.createClient({
+        'host': process.env.ENGRUN_SESSION_REDIS_HOST,
+        'port': process.env.ENGRUN_SESSION_REDIS_PORT
+    });
 var crypto = require('crypto');
 
-Session.generate_key = function() {
+Session.generate_key = function () {
     var sha = crypto.createHash('sha256');
     sha.update(Math.random().toString());
     return sha.digest('hex');
@@ -10,7 +13,7 @@ Session.generate_key = function() {
 
 function Session() {}
 
-Session.new = function(key, content) {
+Session.new = function (key, content) {
     return new Promise((resolve, reject) => {
         client.setex(key, 604800, content, (err, reply) => {
             if (err) {
@@ -21,13 +24,12 @@ Session.new = function(key, content) {
     })
 };
 
-Session.get = function(key) {
+Session.get = function (key) {
     return new Promise((resolve, reject) => {
         client.get(key, (err, reply) => {
             if (err) {
                 reject(err);
             }
-            console.log(reply);
             resolve(reply);
         });
     });

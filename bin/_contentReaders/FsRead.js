@@ -12,12 +12,13 @@ FsRead.run = (filePath, callback, transformer, errorHandler) => {
                 }
                 reject(err);
                 return;
+            } else {
+                var transformedContent = content;
+                if (transformer) {
+                    transformedContent = transformer(content);
+                }
+                resolve(callback(transformedContent));
             }
-            var transformedContent = content;
-            if (transformer) {
-                transformedContent = transformer(content);
-            }
-            resolve(callback(transformedContent));
         });
     })
 };

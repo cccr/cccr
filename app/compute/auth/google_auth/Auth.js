@@ -4,17 +4,17 @@ var OAuth2Client = google.auth.OAuth2;
 
 function Auth(context) {
     this.re = context.renderEngine;
-    this.args = context.content.args;
-    const {CLIENT_ID, CLIENT_SECRET, REDIRECT_URL} = this.args[0];
+    const CLIENT_ID = process.env.ENGRUN_GOOGLE_AUTH_CLIENT_ID,
+        CLIENT_SECRET = process.env.ENGRUN_GOOGLE_AUTH_CLIENT_SECRET,
+        REDIRECT_URL = process.env.ENGRUN_GOOGLE_AUTH_REDIRECT_URL;
     this.oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 }
 
 Auth.prototype.getResult = function () {
-    console.log('Auth');
     return new Promise(function (resolve, reject) {
         try {
             var url = this.oauth2Client.generateAuthUrl({
-                access_type: 'offline', // will return a refresh token
+                access_type: 'online', // offline will return a refresh token
                 scope: ['https://www.googleapis.com/auth/plus.me', 'https://www.googleapis.com/auth/userinfo.email'] // can be a space-delimited string or an array of scopes
             });
 

@@ -1,5 +1,7 @@
 var PathModule = require("path");
 
+var logger = require('./Logger').Component;
+
 const PROPERTIES_FILENAME = 'properties.json';
 const TEMPLATE_FILENAME = 'template.html';
 const DEFAULT_VALUES_FILENAME = 'default.json';
@@ -8,6 +10,9 @@ function Component() {
 }
 
 Component.readComponent = function (componentName, componentSource) {
+
+    logger.debug('readComponent()', componentName);
+
     return new Promise((resolve, reject) => {
         var c = new Component();
         c.componentName = componentName;
@@ -67,14 +72,18 @@ Component.prototype.readComponent = function () {
                 if (this.properties.compute) {
                     var computeScriptPath = this.computeScriptPath(this.properties.script);
                     delete require.cache[computeScriptPath];
-                    this.computeScriptObject = require(computeScriptPath);
+                    try {
+                        this.computeScriptObject = require(computeScriptPath);
+                    } catch (err) {
+                        logger.error('readComponent() require with error. path: ', computeScriptPath, 'err: ', err);
+                        reject(err);
+                    }
                 } else {
                     this.templateString = this.properties.isTemplateString ? this.templateString : `\`${this.templateString}\``;
                 }
                 resolve(this)
             }, (error) => {
-                console.log("5");
-                console.error(error)
+                logger.error('readComponent()', error);
                 reject(error)
             });
     });

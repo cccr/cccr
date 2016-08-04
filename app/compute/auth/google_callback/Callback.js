@@ -6,15 +6,16 @@ var ObjectUtils = require("../../../../bin/ObjectUtils");
 
 function Callback(context) {
     this.re = context.renderEngine;
-    this.args = context.content.args;
-    const {CLIENT_ID, CLIENT_SECRET, REDIRECT_URL} = this.args[0];
+    const CLIENT_ID = process.env.ENGRUN_GOOGLE_AUTH_CLIENT_ID,
+        CLIENT_SECRET = process.env.ENGRUN_GOOGLE_AUTH_CLIENT_SECRET,
+        REDIRECT_URL = process.env.ENGRUN_GOOGLE_AUTH_REDIRECT_URL;
     this.oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
 }
 
 Callback.prototype.getResult = function () {
 
-    return new Promise(function(resolve, reject) {
-        try{
+    return new Promise(function (resolve, reject) {
+        try {
             var code = this.re.session.query.code;
             if (!code) {
                 return reject(new Error('no code'));
@@ -28,16 +29,14 @@ Callback.prototype.getResult = function () {
 
                 //TODO save tokens to session
 
-                plus.people.get({ userId: 'me', auth: this.oauth2Client }, (err, profile) => {
+                plus.people.get({userId: 'me', auth: this.oauth2Client}, (err, profile) => {
                     if (err) {
                         console.err(err);
                         reject(err);
                     }
 
-                    console.log(JSON.stringify(profile));
-
                     var redirectToUrl = this.re.session.cookies.redirectToUrl;
-                    if(redirectToUrl) {
+                    if (redirectToUrl) {
                         ObjectUtils.setKey(this.re.session, ['headers', 'Location'], redirectToUrl);
                         this.re.session.setCookie.push('redirectToUrl=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT');
                         ObjectUtils.setKey(this.re.session, ['responseCode'], 301);
@@ -50,7 +49,7 @@ Callback.prototype.getResult = function () {
             });
 
 
-        } catch(err) {
+        } catch (err) {
             reject(err);
         }
     }.bind(this));

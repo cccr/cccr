@@ -1,3 +1,5 @@
+var logger = require('./Logger').Function;
+
 function Fn() {}
 
 /**
@@ -34,6 +36,10 @@ function Fn() {}
  */
 
 Fn.prototype.loop = function (strings, ...values) {
+
+    logger.debug('loop() strings', strings);
+    logger.debug('loop() ...values', values);
+
     var result = '';
 
     for (var i = 0; i < values[0].length; i++) {

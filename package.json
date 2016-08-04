@@ -4,14 +4,17 @@
   "private": true,
   "scripts": {
     "start": "node ./www.js",
-    "test": "node ./testRun.js"
+    "dev_start": "export $(cat ../nodejs/.env.develop | xargs) && node ./www.js"
   },
   "dependencies": {
+    "app-module-path": "^1.1.0",
     "debug": "~2.2.0",
     "googleapis": "11.0.0",
+    "js-yaml": "^3.6.1",
     "mongodb": "~2.1.20",
     "redis": ">=2.6.1",
+    "request": "^2.73.0",
     "winston": "^2.2.0"
   },
-  "engine": "node >=6.2.0"
+  "engine": "node >=6.3.0"
 }

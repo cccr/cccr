@@ -4,18 +4,24 @@
  * Module dependencies.
  */
 
-const http = require("http"),
-    url = require("url"),
-    path = require("path"),
+require('app-module-path').addPath('./lib');
+require('app-module-path').addPath('./bin');
+
+const http = require('http'),
+    url = require('url'),
+    path = require('path'),
     debug = require('debug')('http');
 
-const CP = require('./bin/ConnectionPool'),
-    RE = require('./bin/RenderEngine'),
-    Session = require('./bin/Session'),
-    ObjectUtils = require('./bin/ObjectUtils');
+const logger = require('Logger').www;
+
+const CP = require('ConnectionPool'),
+    RE = require('RenderEngine'),
+    Session = require('Session'),
+    Routing = require('Routing'),
+    ObjectUtils = require('ObjectUtils');
 
 const port = normalizePort(process.env.PORT || process.argv[2] || '8686');
-console.log('port: ' + port);
+logger.info('port: ' + port);
 
 /**
  * Define app
@@ -30,46 +36,34 @@ var app = function (request, response) {
                 request.on('data', function (chunk) {
                     //TODO check all this shit
                     body.push(chunk);
-                    console.log(chunk.length);
-                    console.log(body.length);
                     if (body.length > 4) {
                         // FLOOD ATTACK OR FAULTY CLIENT, NUKE REQUEST
                         request.connection.destroy();
                         reject();
                     }
                 }).on('end', function () {
-                    resolve(Buffer.concat(body).toString());
-                    console.log(body);
-                    console.log(1);
+                    resolve(JSON.parse(Buffer.concat(body).toString()));
                 });
             } else {
-                resolve('');
+                resolve({});
             }
         })
     };
 
     readBody()
-        .catch(() => console.error(new Error('flood')))
+        .catch(() => logger.error(new Error('flood')))
         .then((body) => {
+            const uri = url.parse(request.url, true).pathname;
 
+            logger.debug('app() uri', uri);
 
-            var uri = url.parse(request.url, true).pathname,
-                filename = path.join(process.cwd(), 'content', uri) + '.json';
-
-            // console.log(uri, filename);
-            //var url_parts = url.parse(request.url, true);
-            //var query = url_parts.query;
-            if (uri.startsWith("/topics") || uri.startsWith("/images") || uri.startsWith("/favicon")) {
+            if (Routing.isInBlackList(uri)) {
+                logger.warn('app() blacklist uri requested', uri, request);
                 response.writeHead(404, {'Content-Type': 'text/html; charset=utf-8'});
                 response.end();
             } else {
+                var content_ref = Routing.getRef(uri);
                 try {
-
-                    var content_ref = {
-                        type: 'fs',
-                        url: filename
-                    };
-
                     var cookies = parseCookies(request);
                     var sessionKey = cookies.session;
                     var session = {
@@ -84,26 +78,26 @@ var app = function (request, response) {
                         }
                     };
 
-                    var onFulfilled = function () {
-                        console.log(session);
+                    var onFulfilled = () => {
                         var re = new RE(request, response, session);
-                        re.init(content_ref, CP).catch(console.error).then((re) => readContent(re));
+                        re.init(content_ref, CP)
+                            .catch(logger.error)
+                            .then(readContent);
                     };
 
                     var checkSession = () => {
                         if (!sessionKey) {
                             var key = Session.generate_key();
-                            console.log(key);
-                            Session.new(key, "{}")
-                                .catch(console.error)
-                                .then(console.log);
+                            Session.new(key, '{}')
+                                .catch(logger.error)
+                                .then(logger.debug);
                             session.key = key;
-                            session.setCookie.push('session=' + key);
+                            session.setCookie.push('session=' + key + '; HttpOnly');
                             session.storage = {};
                             onFulfilled();
                         } else {
                             Session.get(session.key)
-                                .catch(console.error)
+                                .catch(logger.error)
                                 .then((storage) => {
                                     session.storage = JSON.parse(storage);
                                     onFulfilled()
@@ -114,20 +108,20 @@ var app = function (request, response) {
                     checkSession();
 
 
-                    var readContent = function (re) {
+                    var readContent = (re) => {
                         re.readContent().catch((err) => {
-                            console.error(err);
+                            logger.error(err);
                             response.writeHead(500, {'Content-Type': 'text/html; charset=utf-8'});
                             response.end();
                         }).then((renderedResult) => {
                             if (renderedResult.session) {
-                                Session.new(renderedResult.session.key, JSON.stringify(renderedResult.session.storage))
-                                    .catch(console.error)
-                                    .then(console.log);
+                                Session.new(renderedResult.session.key, JSON.stringify(renderedResult.session.storage || {}))
+                                    .catch(logger.error)
+                                    .then(logger.debug);
                             }
-                            response.setHeader("Set-Cookie", renderedResult.session.setCookie);
+                            response.setHeader('Set-Cookie', renderedResult.session.setCookie);
                             response.writeHead(renderedResult.session.responseCode, renderedResult.session.headers);
-                            response.write(renderedResult.renderedResult, "utf8");
+                            response.write(renderedResult.renderedResult, 'utf8');
                             response.end();
                         });
                     };
@@ -174,7 +168,7 @@ function normalizePort(val) {
 }
 
 /**
- * Event listener for HTTP server "error" event.
+ * Event listener for HTTP server 'error' event.
  */
 
 function onError(error) {
@@ -189,11 +183,11 @@ function onError(error) {
     // handle specific listen errors with friendly messages
     switch (error.code) {
         case 'EACCES':
-            console.error(bind + ' requires elevated privileges');
+            logger.error(bind + ' requires elevated privileges');
             process.exit(1);
             break;
         case 'EADDRINUSE':
-            console.error(bind + ' is already in use');
+            logger.error(bind + ' is already in use');
             process.exit(1);
             break;
         default:
@@ -202,7 +196,7 @@ function onError(error) {
 }
 
 /**
- * Event listener for HTTP server "listening" event.
+ * Event listener for HTTP server 'listening' event.
  */
 
 function onListening() {

@@ -1,0 +1,13 @@
+---
+index:
+  __ref:
+    uri: "file://./content/index.json"
+block:
+  __ref:
+    uri: "file://./content/block/index.json"
+  add:
+    __ref:
+      uri: "file://./content/block/add.json"
+  index:
+    __ref:
+      uri: "file://./content/block/index.json"
